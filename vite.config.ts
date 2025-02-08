@@ -11,12 +11,5 @@ export default defineConfig({
   esbuild: {
     target: "esnext",
   },
-  optimizeDeps: {
-    esbuildOptions: {
-      supported: {
-        "top-level-await": true,
-      },
-    },
-  },
   plugins: [react(), tsconfigPaths()],
 });

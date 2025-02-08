@@ -4,7 +4,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
-
+import storybook from "eslint-config-storybook";
 export default tseslint.config(
   { ignores: ["dist"] },
   {
@@ -12,6 +12,7 @@ export default tseslint.config(
       js.configs.recommended,
       ...tseslint.configs.recommended,
       eslintConfigPrettier,
+      storybook.configs.recommended,
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {

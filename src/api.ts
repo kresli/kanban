@@ -1,13 +1,12 @@
 import { Card_Schema } from "./database/schemas/card.schema";
 import { Activity_Schema } from "./database/schemas/activity.schema";
-import { ObjectId } from "bson";
 import { Database } from "./database/database";
 
 export class Api {
   database = new Database();
 
   generateId() {
-    return new ObjectId().toHexString();
+    return crypto.randomUUID();
   }
 
   generateDate() {

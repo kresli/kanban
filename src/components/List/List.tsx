@@ -10,7 +10,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
-import { ObjectId } from "bson";
 
 export interface Props {
   listId: string;
@@ -75,7 +74,7 @@ export function List(props: Props) {
       position,
       authorId: "1",
       description: "",
-      id: new ObjectId().toHexString(),
+      id: api.generateId(),
     };
     setNewCardData(card);
   };
