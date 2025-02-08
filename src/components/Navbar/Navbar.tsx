@@ -1,79 +1,40 @@
-import {
-  alpha,
-  Box,
-  Divider,
-  IconButton,
-  Input,
-  Typography,
-} from "@mui/material";
-import { blue, blueGrey } from "@mui/material/colors";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
 import { ROUTE_URL } from "src/utils/route-url";
-import { NavbarGroup } from "./NavbarGroup";
 import { NavbarItem } from "./NavbarItem";
-import { Add, Edit } from "@mui/icons-material";
 import { useGoto } from "src/hooks/useGoto";
 import { Board_Schema } from "src/database/schemas/board.schema";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 
 export function Navbar() {
   return (
-    <Box
-      sx={{
-        width: 260,
-        minWidth: 260,
-        maxWidth: 260,
-        alignItems: "center",
-        color: blueGrey[900],
-        position: "sticky",
-        bgcolor: alpha(blueGrey[200], 0.5),
-        backdropFilter: "blur(10px)",
-        left: 0,
-        zIndex: 1,
-        borderRight: "1px solid",
-        borderColor: blueGrey[300],
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className="bg-opacity-50 w-min-w-56 max-w-min-w-56 sticky left-0 z-10 flex h-full min-w-56 flex-col border-r border-gray-200 bg-gray-50 backdrop-blur">
       <LogoButton />
-      <Divider
-        sx={{ my: 1, mt: 0, borderColor: blueGrey[300], width: "100%" }}
-      />
+      <Divider />
       <BoardsGroup />
-      <Divider sx={{ my: 1, borderColor: blueGrey[300], width: "100%" }} />
+      <Divider />
       <NavbarGroup>
         <NavbarItem to={"sa"} title="Activity" />
         <NavbarItem to={"xsa"} title="Settings" />
       </NavbarGroup>
-    </Box>
+    </div>
   );
+}
+
+function Divider() {
+  return <div className="w-full border-t border-gray-200" />;
 }
 
 function LogoButton() {
   const goto = useGoto();
   const onClick = () => goto.home();
   return (
-    <Box
-      sx={{
-        cursor: "pointer",
-        color: blueGrey[900],
-        fontWeight: 600,
-        ":hover": {
-          bgcolor: blueGrey[300],
-        },
-        display: "flex",
-        width: "100%",
-        px: 2,
-        boxSizing: "border-box",
-        py: 1,
-      }}
+    <div
+      className="flex h-12 w-full cursor-pointer items-center justify-center font-semibold text-blue-900 hover:bg-blue-200"
       onClick={onClick}
     >
-      <Typography variant="h6">Kanban</Typography>
-    </Box>
+      <p>Kanban</p>
+    </div>
   );
 }
 
@@ -103,14 +64,16 @@ function BoardsGroup() {
     goto.board(boardId);
   };
   const actions = (
-    <IconButton size="small" sx={{ p: 0 }} onClick={onCreateBoard}>
-      <Add />
-    </IconButton>
+    <button className="p-2" onClick={onCreateBoard}>
+      Add
+    </button>
   );
+
   return (
-    <NavbarGroup title="BOARDS" sx={{ flex: 1 }} actions={actions}>
-      {boards}
-    </NavbarGroup>
+    <div className="flex w-full flex-1 flex-col">
+      <NavbarTitle title="Boards" actions={actions} />
+      <div className="flex w-full flex-1 flex-col">{boards}</div>
+    </div>
   );
 }
 
@@ -134,24 +97,13 @@ function BoardItem(props: { board: Board_Schema }) {
     });
     setIsEdit(false);
   };
-  const actions = (
-    <IconButton
-      size="small"
-      sx={{
-        p: 0,
-        ":hover": {
-          color: "white",
-        },
-      }}
-      onClick={() => setIsEdit(true)}
-    >
-      <Edit />
-    </IconButton>
-  );
+  const actions = <button onClick={() => setIsEdit(true)}>Edit</button>;
+
   if (isEdit)
     return (
       <EditableTitle defaultTitle={board.title} onChnage={onTitleChange} />
     );
+
   return (
     <NavbarItem
       key={board.id}
@@ -180,26 +132,48 @@ export function EditableTitle(props: {
 
   const onBlur = () => applyChanges();
   const onFocus = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const length = e.target.value.length;
     e.target.setSelectionRange(length, length);
   };
 
   return (
-    <Input
+    <input
       autoFocus
       onFocus={onFocus}
       value={value}
       onChange={onChange}
-      fullWidth
-      multiline
-      sx={{
-        padding: 0,
-        lineHeight: 1.5,
-      }}
       onKeyDown={onKeyDown}
       onBlur={onBlur}
     />
+  );
+}
+
+function NavbarGroup(
+  props: PropsWithChildren<{
+    title?: string;
+    actions?: React.ReactNode;
+  }>,
+) {
+  return (
+    <div className="flex w-full flex-col">
+      {props.title && (
+        <div className="flex flex-row items-center justify-between px-2 py-1">
+          <p className="text">{props.title}</p>
+          {props.actions}
+        </div>
+      )}
+      <div className="w-full">{props.children}</div>
+    </div>
+  );
+}
+
+function NavbarTitle(props: { title: string; actions: React.ReactNode }) {
+  return (
+    <div className="flex flex-row items-center justify-between px-2 py-1">
+      <p className="text-base">{props.title}</p>
+      {props.actions}
+    </div>
   );
 }

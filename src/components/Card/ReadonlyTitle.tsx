@@ -1,9 +1,7 @@
-import { Typography, IconButton } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import { blueGrey } from "@mui/material/colors";
 import { UseBoolean } from "src/hooks/useBoolean";
 import { UseText } from "src/hooks/useText";
 import { Card_Schema } from "src/database/schemas/card.schema";
+import { IconEdit } from "@tabler/icons-react";
 
 interface Props {
   card: Card_Schema;
@@ -19,33 +17,16 @@ export function ReadonlyTitle(props: Props) {
     props.draftTitle.setValue(props.card.title);
   };
   return (
-    <>
-      <Typography
-        gutterBottom
-        variant="body1"
-        component="span"
-        textAlign="start"
-        margin={0}
-      >
+    <div className="relative flex items-center">
+      <span className="text-base leading-snug font-normal">
         {props.card.title}
-      </Typography>
-      <IconButton
+      </span>
+      <button
         onClick={onClick}
-        className="icon-button"
-        size="small"
-        sx={{
-          visibility: "hidden",
-          position: "absolute",
-          top: 4,
-          right: 4,
-          backgroundColor: "white",
-          "&:hover": {
-            backgroundColor: blueGrey[50],
-          },
-        }}
+        className="absolute top-1 right-1 hidden rounded bg-white p-1 group-hover:block hover:bg-gray-100"
       >
-        <Edit fontSize="small" />
-      </IconButton>
-    </>
+        <IconEdit size={16} />
+      </button>
+    </div>
   );
 }

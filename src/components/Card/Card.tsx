@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { EditableTitle } from "./EditableTitle";
 import { ReadonlyTitle } from "./ReadonlyTitle";
 import { DropAreas } from "./DropAreas";
@@ -23,7 +22,7 @@ export function Card(props: Props) {
   const db = useApi();
   const cardQuery = useLiveQuery(
     () => db.getCardById(props.cardId),
-    [db, props.cardId]
+    [db, props.cardId],
   );
   const { cardDraft } = props;
   const navigate = useNavigate();
@@ -65,15 +64,11 @@ function Title(props: { isDragging: boolean; card: Card_Schema }) {
   const draftTitle = useText();
   const isEdit = useBoolean();
   return (
-    <Box
-      sx={{
-        opacity: isDragging ? 0 : 1,
-        display: "flex",
-        flexDirection: "column",
-      }}
+    <div
+      className={`flex flex-col ${isDragging ? "opacity-0" : "opacity-100"}`}
     >
       <ReadonlyTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />
       <EditableTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />
-    </Box>
+    </div>
   );
 }

@@ -1,18 +1,5 @@
-import { blueGrey } from "@mui/material/colors";
-
 export function TimelineLine() {
   return (
-    <div
-      className="TimelineLine"
-      style={{
-        position: "absolute",
-        top: 100,
-        bottom: 20,
-        left: 54,
-        width: 2,
-        backgroundColor: blueGrey[50],
-        zIndex: 0,
-      }}
-    />
+    <div className="absolute top-[100px] bottom-[20px] left-[54px] z-0 w-[2px] bg-gray-100" />
   );
 }

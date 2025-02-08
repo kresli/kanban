@@ -1,25 +1,16 @@
-import { Box, Stack } from "@mui/material";
 import { Outlet } from "react-router";
 import { Navbar } from "src/components/Navbar";
 
 export function Page() {
   return (
-    <Box
-      position="fixed"
-      width="100vw"
-      height="100vh"
-      overflow="hidden"
-      display="flex"
-      flexDirection="column"
-      boxSizing="border-box"
-    >
+    <div className="fixed box-border flex h-screen w-screen flex-col overflow-hidden">
       {/* <Mainbar /> */}
-      <Stack direction="row" flexGrow={1} height="100%" overflow="auto">
+      <div className="flex h-full flex-grow flex-row overflow-auto">
         <Navbar />
-        <Box flexGrow={1} height="100%" overflow={"visible"}>
+        <div className="h-full flex-grow overflow-visible">
           <Outlet />
-        </Box>
-      </Stack>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }

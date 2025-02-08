@@ -1,5 +1,4 @@
 import { FormatListBulleted } from "@mui/icons-material";
-import { Stack, Box, Typography } from "@mui/material";
 import { TimelineLine } from "./TimelineLine";
 import { ActivitySwitch } from "./activities/ActivitySwitch";
 import { CreateActivityComment } from "./CreateActivityComment";
@@ -15,51 +14,29 @@ export function Activities(props: Props) {
   const db = useApi();
   const acts = useLiveQuery(
     () => db.getActivitiesByCardId(props.card.id),
-    [db, props.card.id]
+    [db, props.card.id],
   );
   const activities = acts?.map((activity) => (
     <ActivitySwitch key={activity.id} activity={activity} />
   ));
+
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns="[icon] 40px [body] minmax(0, 1fr)"
-      rowGap={1}
-      position="relative"
-      sx={{
-        "&:hover .sort-button": {
-          visibility: "visible",
-        },
-      }}
-    >
+    <div className="relative grid grid-cols-[40px_minmax(0,1fr)] gap-y-4 hover:[.sort-button]:visible">
       <Icon />
-      <Stack direction="row" spacing={2} alignItems="center" width="100%">
-        <Typography variant="h6" fontSize={16} flex={1}>
-          Activity
-        </Typography>
-      </Stack>
-      <Stack
-        style={{ gridColumnStart: "body" }}
-        direction="column"
-        spacing={2}
-        zIndex={1}
-      >
+      <div className="flex w-full flex-row items-center gap-x-2">
+        <h6 className="flex-1 text-base font-semibold">Activity</h6>
+      </div>
+      <div className="z-10 col-[body] flex flex-col gap-y-2">
         <CreateActivityComment card={props.card} />
         {activities}
-      </Stack>
+      </div>
       <TimelineLine />
-    </Box>
+    </div>
   );
 }
 
 function Icon() {
   return (
-    <FormatListBulleted
-      sx={{
-        display: "flex",
-        alignSelf: "center",
-        justifySelf: "center",
-      }}
-    />
+    <FormatListBulleted className="flex self-center justify-self-center" />
   );
 }

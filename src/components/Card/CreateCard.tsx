@@ -1,4 +1,3 @@
-import { Box, Input } from "@mui/material";
 import { CardPaper } from "./CardPaper";
 import { Card_Schema } from "src/database/schemas/card.schema";
 
@@ -21,30 +20,25 @@ export function CreateCard(props: Props) {
   };
 
   const onFocus = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const length = e.target.value.length;
     e.target.setSelectionRange(length, length);
   };
+
   return (
     <CardPaper>
-      <Box display="flex" flexDirection="column">
-        <Input
+      <div className="flex flex-col">
+        <input
           autoFocus
           onFocus={onFocus}
           value={props.cardDraft.title}
           onChange={onChange}
-          fullWidth
-          multiline
-          sx={{
-            padding: 0,
-            lineHeight: 1.5,
-            pointerEvents: "none",
-          }}
+          className="w-full border-none bg-transparent p-0 leading-snug focus:outline-none"
           onKeyDown={onKeyDown}
           onBlur={props.onSubmit}
         />
-      </Box>
+      </div>
     </CardPaper>
   );
 }

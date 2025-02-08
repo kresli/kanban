@@ -1,4 +1,3 @@
-import { Box, Modal, Paper, Stack, SxProps, Theme } from "@mui/material";
 import { Header } from "./Header";
 import { Description } from "./Description";
 import { Sidebar } from "./Sidebar";
@@ -6,21 +5,7 @@ import { Activities } from "./Activities";
 import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
-
-const style: SxProps<Theme> = {
-  width: "100%",
-  mx: "auto",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  px: 2,
-  pt: 2,
-  pb: 8,
-  maxWidth: 768,
-  my: 6,
-  rowGap: 2,
-  display: "flex",
-  flexDirection: "column",
-};
+import classNames from "classnames";
 
 interface Props {
   cardId: string;
@@ -32,7 +17,7 @@ export function CardDetailsModal(props: Props) {
   const db = useApi();
   const card = useLiveQuery(
     () => db.getCardById(props.cardId),
-    [db, props.cardId]
+    [db, props.cardId],
   );
   const [mouseDownOnBackground, setMouseDownOnBackground] = useState(false);
 
@@ -47,33 +32,27 @@ export function CardDetailsModal(props: Props) {
   const onMouseDown = () => setMouseDownOnBackground(true);
 
   return (
-    <Modal
-      open={props.isOpen}
-      onClose={props.onClose}
-      disableAutoFocus
-      sx={rootSx}
+    <div
+      className={classNames(
+        "bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black",
+        props.isOpen ? "block" : "hidden",
+      )}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     >
-      <Box
-        sx={{ minWidth: "100%" }}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
+      <div
+        className="relative mx-auto my-6 w-full max-w-3xl bg-white p-4 shadow-lg"
+        onMouseDown={(e) => e.stopPropagation()}
       >
-        <Paper sx={style} onMouseDown={(e) => e.stopPropagation()}>
-          <Header card={card} onClose={props.onClose} />
-          <Stack direction="row" spacing={2} flexGrow={1}>
-            <Stack flexGrow={1} rowGap={2} direction="column">
-              <Description card={card} />
-              <Activities card={card} />
-            </Stack>
-            <Sidebar card={card} onClose={props.onClose} />
-          </Stack>
-        </Paper>
-      </Box>
-    </Modal>
+        <Header card={card} onClose={props.onClose} />
+        <div className="flex flex-row gap-2">
+          <div className="flex flex-grow flex-col gap-2">
+            <Description card={card} />
+            <Activities card={card} />
+          </div>
+          <Sidebar card={card} onClose={props.onClose} />
+        </div>
+      </div>
+    </div>
   );
 }
-
-const rootSx: SxProps<Theme> = {
-  overflowY: "auto",
-  paddingBottom: 4,
-};

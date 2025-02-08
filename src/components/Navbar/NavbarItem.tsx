@@ -1,6 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
 import { NavLink } from "react-router";
+import classNames from "classnames";
 
 interface Props {
   to: string;
@@ -10,42 +9,27 @@ interface Props {
 
 export function NavbarItem(props: Props) {
   return (
-    <NavLink to={props.to} style={{ textDecoration: "none", width: "100%" }}>
+    <NavLink to={props.to} className="w-full no-underline">
       {({ isActive }) => (
-        <Box
-          sx={{
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            borderRadius: 1,
-            flex: 1,
-            justifyItems: "space-between",
-            px: 2,
-            py: 1,
-            color: blueGrey[900],
-            bgcolor: isActive ? blueGrey[300] : "transparent",
-            ":hover": {
-              bgcolor: blueGrey[300],
-              "& .actions": {
-                visibility: "visible",
-              },
-            },
-          }}
+        <div
+          className={classNames(
+            "flex cursor-pointer items-center rounded px-4 py-2 transition-colors",
+            isActive
+              ? "bg-gray-300 text-gray-900"
+              : "bg-transparent text-gray-900 hover:bg-gray-300",
+          )}
         >
-          <Typography variant="body1" style={{ flex: 1 }}>
-            {props.title}
-          </Typography>
-          <Box
-            className="actions"
-            sx={{ visibility: "hidden" }}
+          <span className="flex-1 text-base">{props.title}</span>
+          <div
+            className="actions invisible group-hover:visible"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
             }}
           >
             {props.actions}
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
     </NavLink>
   );

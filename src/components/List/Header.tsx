@@ -1,5 +1,3 @@
-import { Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
 
@@ -11,18 +9,11 @@ export function Header(props: Props) {
   const db = useApi();
   const list = useLiveQuery(
     () => db.getListById(props.listId),
-    [db, props.listId]
+    [db, props.listId],
   );
   return (
-    <Typography
-      variant="subtitle1"
-      textAlign="center"
-      sx={{
-        color: blueGrey[800],
-      }}
-      padding={1}
-    >
+    <h3 className="p-2 text-center text-lg font-semibold text-gray-800">
       {list?.title}
-    </Typography>
+    </h3>
   );
 }

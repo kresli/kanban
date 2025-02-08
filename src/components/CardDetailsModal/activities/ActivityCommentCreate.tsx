@@ -1,5 +1,3 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
 import { format, parseISO } from "date-fns";
 import { Markdown } from "src/components/Markdown";
 import { Activity_Card_Comment_Create_Schema } from "src/database/schemas/activity-card-comment-create.schema";
@@ -10,50 +8,26 @@ interface Props {
 
 export function ActivityCommentCreate(props: Props) {
   return (
-    <Box
-      sx={{
-        borderColor: blueGrey[100],
-        borderRadius: 2,
-        borderWidth: 1,
-        borderStyle: "solid",
-        bgcolor: "white",
-        overflow: "hidden",
-      }}
-    >
-      <Box>
-        <Stack
-          direction="row"
-          spacing={1}
-          bgcolor={blueGrey[50]}
-          py={1}
-          px={2}
-          borderBottom={1}
-          borderColor="divider"
-          alignItems="center"
-        >
-          <Typography variant="body1">{props.activity.authorId}</Typography>
+    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div>
+        <div className="flex items-center space-x-2 border-b border-gray-300 bg-gray-100 px-4 py-2">
+          <span className="text-base font-medium">
+            {props.activity.authorId}
+          </span>
           <FormatedDate activity={props.activity} />
-        </Stack>
-        <Markdown
-          sx={{
-            padding: 2,
-          }}
-        >
-          {props.activity.payload.comment}
-        </Markdown>
-      </Box>
-    </Box>
+        </div>
+        <div className="p-4">
+          <Markdown>{props.activity.payload.comment}</Markdown>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function FormatedDate(props: Props) {
   const friendlyDate = format(
     parseISO(props.activity.createdAt),
-    "'on' MMM dd, yyyy"
+    "'on' MMM dd, yyyy",
   );
-  return (
-    <Typography variant="body2" color="text.secondary">
-      {friendlyDate}
-    </Typography>
-  );
+  return <span className="text-sm text-gray-500">{friendlyDate}</span>;
 }
