@@ -1,9 +1,7 @@
 ```mermaid
 graph TD;
-middleware[Middleware]
-Component<-->middleware
-middleware<-->Websocket
-Websocket<-->Backend
-middleware<-->Dexie
+component-->|emit|api
+api-->|query|component
+api<-->Dexie
 
 ```
