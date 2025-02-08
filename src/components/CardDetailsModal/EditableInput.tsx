@@ -1,0 +1,56 @@
+import { Input, SxProps, Theme } from "@mui/material";
+import { useBoolean } from "src/hooks/useBoolean";
+import { useText } from "src/hooks/useText";
+
+export function EditableInput(props: {
+  onChange: (value: string) => void;
+  value: string;
+  autoFocus?: boolean;
+  sx?: SxProps<Theme>;
+}) {
+  const isEditing = useBoolean(false);
+  const text = useText();
+
+  const onFocus = () => {
+    isEditing.setTrue();
+    text.setValue(props.value);
+  };
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      text.setValue(props.value);
+      isEditing.setFalse();
+      return;
+    }
+    if (e.key !== "Enter") return;
+    if (e.shiftKey) return;
+    props.onChange(text.value);
+    isEditing.setFalse();
+  };
+  const onBlur = () => {
+    props.onChange(text.value);
+    isEditing.setFalse();
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    text.setValue(e.target.value);
+  };
+
+  const value = isEditing.value ? text.value : props.value;
+
+  return (
+    <Input
+      autoFocus={props.autoFocus}
+      onFocus={onFocus}
+      value={value}
+      onChange={onChange}
+      fullWidth
+      multiline
+      disableUnderline={!isEditing.value}
+      sx={props.sx}
+      onKeyDown={onKeyDown}
+      onBlur={onBlur}
+      size="medium"
+    />
+  );
+}
