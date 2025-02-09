@@ -1,8 +1,8 @@
-import { Edit } from "@mui/icons-material";
 import { useRef } from "react";
 import { useBoolean } from "src/hooks/useBoolean";
 import { useText } from "src/hooks/useText";
 import classNames from "classnames";
+import { IconPencil } from "@tabler/icons-react";
 
 export function Title(props: {
   onChange: (value: string) => void;
@@ -40,7 +40,7 @@ export function Title(props: {
     text.setValue(props.value);
   };
 
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLTextAreaElement>(null);
   const value = isEditing.value ? text.value : props.value;
 
   const textareaClasses = classNames(
@@ -67,7 +67,7 @@ export function Title(props: {
           onClick={onEditClick}
           className="invisible absolute top-1 right-1 rounded-full bg-white p-1 transition-colors group-hover:visible hover:bg-gray-100"
         >
-          <Edit className="h-4 w-4" />
+          <IconPencil size={16} />
         </button>
       )}
     </div>
