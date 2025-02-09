@@ -120,7 +120,6 @@ export class Api {
     return this.database.activities
       .where("cardId")
       .equals(cardId)
-      .sortBy("createdAt")
-      .then((activities) => activities.reverse());
+      .sortBy("createdAt");
   }
 }
