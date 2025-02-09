@@ -1,5 +1,3 @@
-import { Box, Card, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Board_Schema } from "src/database/schemas/board.schema";
 import { useApi } from "src/hooks/useApi";
@@ -12,46 +10,22 @@ export function HomeRoute() {
     <Board key={board.id} board={board} />
   ));
   return (
-    <Box
-      sx={{
-        bgcolor: blueGrey[50],
-        height: "100%",
-        width: "100%",
-        p: 2,
-        boxSizing: "border-box",
-        gap: 2,
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        justifyItems: "flex-start",
-        flexDirection: "column",
-      }}
-    >
+    <div className="box-border flex h-full w-full flex-col flex-wrap items-start justify-start gap-2 bg-gray-100 p-4">
       {boards}
-    </Box>
+    </div>
   );
 }
 
 function Board(props: { board: Board_Schema }) {
   const goto = useGoto();
   return (
-    <Card
+    <div
       onClick={() => goto.board(props.board.id)}
-      sx={{
-        cursor: "pointer",
-        width: 300,
-        ":hover": {
-          bgcolor: "primary.light",
-        },
-        height: 100,
-      }}
+      className="h-[100px] w-[300px] cursor-pointer rounded-lg bg-white p-4 shadow-md hover:bg-blue-100"
     >
-      <Box p={2}>
-        <Typography variant="body1" sx={{ m: 0, lineHeight: 1 }}>
-          {props.board.title}
-        </Typography>
-      </Box>
-    </Card>
+      <p className="m-0 text-lg leading-tight font-medium">
+        {props.board.title}
+      </p>
+    </div>
   );
 }

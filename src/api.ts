@@ -22,7 +22,7 @@ export class Api {
       }
       case "card_update": {
         const updatedEntries = Object.entries(activity.payload).map(
-          ([key, value]) => [key, value.newValue]
+          ([key, value]) => [key, value.newValue],
         );
         const updatedCard: Partial<Card_Schema> =
           Object.fromEntries(updatedEntries);
@@ -51,7 +51,7 @@ export class Api {
       }
       case "board_update": {
         const updatedEntries = Object.entries(activity.payload).map(
-          ([key, value]) => [key, value.newValue]
+          ([key, value]) => [key, value.newValue],
         );
         const updatedBoard = Object.fromEntries(updatedEntries);
         this.database.boards.update(activity.boardId, updatedBoard);
@@ -120,6 +120,7 @@ export class Api {
     return this.database.activities
       .where("cardId")
       .equals(cardId)
-      .sortBy("createdAt");
+      .sortBy("createdAt")
+      .then((activities) => activities.reverse());
   }
 }

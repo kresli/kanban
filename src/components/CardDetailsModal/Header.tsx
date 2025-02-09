@@ -1,37 +1,10 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  Menu,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  SxProps,
-  Typography,
-} from "@mui/material";
-import { CreditCard, Close, ArrowDropDown } from "@mui/icons-material";
+import { IconCreditCard, IconX, IconChevronDown } from "@tabler/icons-react";
 import { EditableInput } from "./EditableInput";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
 import { useLiveQuery } from "dexie-react-hooks";
-import { UseBoolean, useBoolean } from "src/hooks/useBoolean";
+import { useBoolean } from "src/hooks/useBoolean";
 import { useState } from "react";
-
-const rootSx: SxProps = {
-  display: "grid",
-  gridTemplateColumns: "[icon] 40px [body] minmax(0, 1fr)",
-  rowGap: 0,
-};
-
-const cardSx: SxProps = {
-  display: "flex",
-  alignSelf: "flex-start",
-  justifySelf: "center",
-  mt: 0.8,
-};
 
 export function Header(props: { card: Card_Schema; onClose: () => void }) {
   const db = useApi();
@@ -50,22 +23,38 @@ export function Header(props: { card: Card_Schema; onClose: () => void }) {
       },
     });
   return (
-    <Box sx={rootSx}>
-      <CreditCard sx={cardSx} />
-      <Stack direction="row" spacing={2} alignItems="center" width="100%">
-        <EditableInput
-          value={props.card.title}
-          onChange={onTitleChange}
-          sx={{ fontSize: "h6.fontSize" }}
-        />
-        <IconButton onClick={props.onClose} size="small">
-          <Close />
-        </IconButton>
-      </Stack>
-      <Stack flexGrow={1} style={{ gridColumnStart: "body" }}>
+    <div className="sticky top-0 z-10 rounded-t-md border-b border-rim bg-white p-8 pb-4">
+      <Title
+        title={props.card.title}
+        onTitleChange={onTitleChange}
+        onClose={props.onClose}
+      />
+      <div className="col-start-2 flex-grow">
         <ListPicker card={props.card} />
-      </Stack>
-    </Box>
+      </div>
+    </div>
+  );
+}
+
+function Title(props: {
+  title: string;
+  onTitleChange: (title: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="flex w-full items-center space-x-2">
+      <EditableInput
+        value={props.title}
+        onChange={props.onTitleChange}
+        className="text-lg font-semibold"
+      />
+      <button
+        onClick={props.onClose}
+        className="cursor-pointer rounded p-1 hover:bg-gray-200"
+      >
+        <IconX size={16} />
+      </button>
+    </div>
   );
 }
 
@@ -75,60 +64,34 @@ function ListPicker(props: { card: Card_Schema }) {
   const db = useApi();
   const list = useLiveQuery(
     () => db.getListById(props.card.listId),
-    [db, props.card.listId]
+    [db, props.card.listId],
   );
   if (!list) return null;
   return (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      <Typography variant="body2" color="text.secondary" paddingBottom={0.3}>
-        in list
-      </Typography>
-      <Button
+    <div className="flex items-center space-x-2">
+      <span className="text-sm text-gray-600">in list</span>
+      <button
         ref={setAnchorEl}
-        size="small"
-        variant="text"
+        className="flex items-center space-x-1 rounded p-1 text-sm font-medium hover:bg-gray-200"
         onClick={isOpen.setTrue}
-        endIcon={<ArrowDropDown />}
       >
-        {list.title}
-      </Button>
-      <ListMenu card={props.card} anchorEl={anchorEl} isOpen={isOpen} />
-    </Stack>
+        <span>{list.title}</span>
+        <IconChevronDown size={16} />
+      </button>
+      {isOpen.value && <ListMenu card={props.card} onClose={isOpen.setFalse} />}
+    </div>
   );
 }
 
-function ListMenu(props: {
-  card: Card_Schema;
-  anchorEl: HTMLButtonElement | null;
-  isOpen: UseBoolean;
-}) {
+function ListMenu(props: { card: Card_Schema; onClose: () => void }) {
   const db = useApi();
-
   const allLists = useLiveQuery(async () => {
     const cardBoard = await db.getBoardByCardId(props.card.id);
     if (!cardBoard) return [];
     return db.getListByBoardId(cardBoard.id);
   }, [db, props.card.id]);
 
-  const cards = useLiveQuery(
-    () => db.getCardByListId(props.card.listId),
-    [db, props.card.listId]
-  );
-  const lists = allLists?.map((list) => (
-    <MenuItem value={list.id} key={list.id}>
-      {list.title}
-    </MenuItem>
-  ));
-  const positions = cards?.map((_, i) => {
-    return (
-      <MenuItem value={i} key={i}>
-        {i + 1}
-      </MenuItem>
-    );
-  });
-  const list = allLists?.find((list) => list.id === props.card.listId);
-
-  const onListChange = (e: SelectChangeEvent<string>) => {
+  const onListChange = (listId: string) => {
     db.emitActivity({
       id: db.generateId(),
       activityType: "card_update",
@@ -138,57 +101,24 @@ function ListMenu(props: {
       payload: {
         listId: {
           oldValue: props.card.listId,
-          newValue: e.target.value,
+          newValue: listId,
         },
       },
     });
-  };
-
-  const onPositionChange = (e: SelectChangeEvent<string>) => {
-    const position = parseInt(e.target.value);
-    db.emitActivity({
-      id: db.generateId(),
-      activityType: "card_update",
-      authorId: "user",
-      cardId: props.card.id,
-      createdAt: db.generateDate(),
-      payload: {
-        position: {
-          oldValue: props.card.position,
-          newValue: position,
-        },
-      },
-    });
+    props.onClose();
   };
 
   return (
-    <Menu
-      anchorEl={props.anchorEl}
-      open={props.isOpen.value}
-      onClose={props.isOpen.setFalse}
-    >
-      <Box p={1}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel>List</InputLabel>
-          <Select value={list?.id} onChange={onListChange} label="List">
-            {lists}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel>Position</InputLabel>
-          <Select
-            value={`${getCardIndex(cards, props.card.id)}`}
-            onChange={onPositionChange}
-            label="Position"
-          >
-            {positions}
-          </Select>
-        </FormControl>
-      </Box>
-    </Menu>
+    <div className="absolute mt-2 w-48 rounded border bg-white shadow-lg">
+      {allLists?.map((list) => (
+        <button
+          key={list.id}
+          className="w-full px-4 py-2 text-left hover:bg-gray-100"
+          onClick={() => onListChange(list.id)}
+        >
+          {list.title}
+        </button>
+      ))}
+    </div>
   );
-}
-
-function getCardIndex(cards: Card_Schema[] = [], cardId: string) {
-  return cards.findIndex((card) => card.id === cardId);
 }

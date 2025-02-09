@@ -1,4 +1,3 @@
-import { Input } from "@mui/material";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { UseBoolean } from "src/hooks/useBoolean";
 import { useApi } from "src/hooks/useApi";
@@ -42,24 +41,19 @@ export function EditableTitle(props: Props) {
 
   const onBlur = () => applyChanges();
   const onFocus = (
-    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
   ) => {
     const length = e.target.value.length;
     e.target.setSelectionRange(length, length);
   };
 
   return (
-    <Input
+    <input
       autoFocus
       onFocus={onFocus}
       value={props.draftTitle.value}
       onChange={onChange}
-      fullWidth
-      multiline
-      sx={{
-        padding: 0,
-        lineHeight: 1.5,
-      }}
+      className="w-full border-none bg-transparent p-0 leading-snug focus:outline-none"
       onKeyDown={onKeyDown}
       onBlur={onBlur}
     />

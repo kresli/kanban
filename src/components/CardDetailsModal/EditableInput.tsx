@@ -1,12 +1,12 @@
-import { Input, SxProps, Theme } from "@mui/material";
 import { useBoolean } from "src/hooks/useBoolean";
 import { useText } from "src/hooks/useText";
+import classNames from "classnames";
 
 export function EditableInput(props: {
   onChange: (value: string) => void;
   value: string;
   autoFocus?: boolean;
-  sx?: SxProps<Theme>;
+  className?: string;
 }) {
   const isEditing = useBoolean(false);
   const text = useText();
@@ -39,18 +39,17 @@ export function EditableInput(props: {
   const value = isEditing.value ? text.value : props.value;
 
   return (
-    <Input
+    <input
       autoFocus={props.autoFocus}
       onFocus={onFocus}
       value={value}
       onChange={onChange}
-      fullWidth
-      multiline
-      disableUnderline={!isEditing.value}
-      sx={props.sx}
+      className={classNames(
+        "w-full border-none bg-transparent p-0 leading-snug text-primary-900 focus:outline-none",
+        props.className,
+      )}
       onKeyDown={onKeyDown}
       onBlur={onBlur}
-      size="medium"
     />
   );
 }

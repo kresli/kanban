@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRef } from "react";
 import { Card_Schema } from "src/database/schemas/card.schema";
@@ -11,7 +10,7 @@ export function DropAreas(props: { card: Card_Schema; cardDraft: CardDraft }) {
   const db = useApi();
   const overListCards = useLiveQuery(
     () => db.getCardByListId(props.card.listId),
-    [db, props.card.listId]
+    [db, props.card.listId],
   );
   const { cardDraft } = props;
   const prevY = useRef(0);
@@ -37,15 +36,8 @@ export function DropAreas(props: { card: Card_Schema; cardDraft: CardDraft }) {
     });
   };
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      position="absolute"
-      top={0}
-      bottom={0}
-      left={0}
-      right={0}
-      flex={1}
+    <div
+      className="absolute top-0 right-0 bottom-0 left-0 flex flex-1 flex-col"
       onDragOver={onDragOver}
     />
   );

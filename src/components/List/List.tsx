@@ -1,5 +1,3 @@
-import { Box, Stack } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
 import { Card } from "src/components/Card";
 import { Header } from "./Header";
 import { ScrollContainer } from "./ScrollContainer";
@@ -10,6 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
+import classNames from "classnames";
 
 export interface Props {
   listId: string;
@@ -23,12 +22,11 @@ export function List(props: Props) {
   const api = useApi();
   const listCards = useLiveQuery(
     () => api.getCardByListId(props.listId),
-    [api, props.listId]
+    [api, props.listId],
   );
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     cardDraft.saveCard();
   };
   const onDragOver = (e: React.DragEvent) => {
@@ -93,39 +91,23 @@ export function List(props: Props) {
   );
 
   return (
-    <Box
-      height="100%"
-      paddingLeft={1}
-      paddingRight={1}
-      onDragOver={onDragOver}
-      onDrop={onDrop}
-    >
-      <Stack
-        direction="column"
-        height="auto"
-        maxHeight="100%"
-        flex={1}
-        overflow="hidden"
-        bgcolor={blueGrey[100]}
-        borderRadius={2}
-        minWidth={275}
-        maxWidth={275}
-      >
+    <div className="h-full px-1.5" onDragOver={onDragOver} onDrop={onDrop}>
+      <div className="flex h-auto max-h-full max-w-[275px] min-w-[275px] flex-1 flex-col overflow-hidden rounded-lg border border-rim bg-bg-main">
         <Header listId={props.listId} />
         <ScrollContainer>
           {cards}
           {newCard}
         </ScrollContainer>
         <CreateCardButton onClick={onCreateNewCardClick} />
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 }
 
 function getCards(
   listId: string,
   listCards: Card_Schema[] = [],
-  cardDraft: CardDraft
+  cardDraft: CardDraft,
 ) {
   const { card } = cardDraft;
   if (!card) return listCards;

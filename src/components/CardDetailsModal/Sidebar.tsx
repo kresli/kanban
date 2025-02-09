@@ -1,18 +1,12 @@
-import { Stack, Button } from "@mui/material";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
+import classNames from "classnames";
 
 export function Sidebar(props: { card: Card_Schema; onClose: () => void }) {
   return (
-    <Stack
-      direction="row"
-      spacing={2}
-      minWidth={168}
-      maxWidth={168}
-      alignItems="flex-start"
-    >
+    <div className="flex max-w-[168px] min-w-[168px] flex-row items-start space-x-2">
       <DeleteButton card={props.card} onClick={props.onClose} />
-    </Stack>
+    </div>
   );
 }
 
@@ -29,14 +23,11 @@ function DeleteButton(props: { card: Card_Schema; onClick: () => void }) {
     props.onClick();
   };
   return (
-    <Button
-      variant="outlined"
-      color="primary"
-      fullWidth
-      size="small"
+    <button
+      className="w-full rounded border border-gray-300 px-3 py-1 text-sm text-blue-500 hover:bg-gray-100"
       onClick={onClick}
     >
       Delete
-    </Button>
+    </button>
   );
 }

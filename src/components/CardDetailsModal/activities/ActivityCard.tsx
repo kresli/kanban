@@ -1,32 +1,25 @@
-import { SellOutlined } from "@mui/icons-material";
-import { Stack, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { IconTag } from "@tabler/icons-react";
 import { FormatedDate } from "./FormatedDate";
 import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { PropsWithChildren } from "react";
 
 export function ActivityCard(
-  props: PropsWithChildren<{ activity: Activity_Schema; activityType?: string }>
+  props: PropsWithChildren<{
+    activity: Activity_Schema;
+    activityType?: string;
+  }>,
 ) {
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
-      <SellOutlined
-        sx={{
-          color: blueGrey[400],
-          fontSize: 16,
-          display: "flex",
-          alignItems: "center",
-          bgcolor: blueGrey[50],
-          borderRadius: "100%",
-          p: 0.8,
-        }}
-      />
-      <Typography variant="body1">{props.activity.authorId}</Typography>
-      <Typography variant="body2" color="text.secondary">
+    <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-center rounded-full bg-gray-100 p-2 text-gray-500">
+        <IconTag size={16} />
+      </div>
+      <span className="text-base font-medium">{props.activity.authorId}</span>
+      <span className="text-sm text-gray-500">
         {props.activityType ?? props.activity.activityType}
-      </Typography>
+      </span>
       {props.children}
       <FormatedDate isoDate={props.activity.createdAt} />
-    </Stack>
+    </div>
   );
 }

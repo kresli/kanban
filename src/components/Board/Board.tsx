@@ -1,4 +1,3 @@
-import { Box, Button } from "@mui/material";
 import { List } from "src/components/List";
 import { useApi } from "src/hooks/useApi";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -10,7 +9,7 @@ export function Board(props: { boardId: string }) {
 
   const listsQuery = useLiveQuery(
     () => api.getListByBoardId(props.boardId),
-    [api, props.boardId]
+    [api, props.boardId],
   );
   const lists = listsQuery?.map((list) => (
     <List key={list.id} listId={list.id} cardDraft={cardDraft} />
@@ -42,33 +41,24 @@ export function Board(props: { boardId: string }) {
   };
 
   return (
-    <Box
+    <div
       onDragOver={onDragOver}
       onDrop={onDrop}
-      display="flex"
-      boxSizing="border-box"
-      width="100%"
-      height="100%"
-      justifyContent="flex-start"
-      alignItems="flex-start"
-      p={2}
-      sx={{
-        // overflowX: "hidden",
-        overflowY: "hidden",
-      }}
+      className="box-border flex h-full w-full items-start justify-start overflow-y-hidden p-4"
     >
       {lists}
-      <Box
-        height="100%"
-        paddingLeft={1}
-        paddingRight={1}
+      <div
+        className="h-full max-w-[275px] min-w-[275px] px-1"
         onDragOver={onDragOver}
         onDrop={onDrop}
       >
-        <Button onClick={onCreateList} sx={{ textWrap: "nowrap" }}>
+        <button
+          onClick={onCreateList}
+          className="bg-whie w-full cursor-pointer rounded border border-primary-200 p-2 text-sm whitespace-nowrap text-primary-600 hover:border-primary-300 hover:bg-secondary-50"
+        >
           Create new list
-        </Button>
-      </Box>
-    </Box>
+        </button>
+      </div>
+    </div>
   );
 }

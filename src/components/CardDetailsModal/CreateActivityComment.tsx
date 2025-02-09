@@ -1,18 +1,16 @@
-import { Box, Typography, Button } from "@mui/material";
 import { useState } from "react";
 import { Editor } from "src/components/Editor";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
+import classNames from "classnames";
 
 export function CreateActivityComment(props: { card: Card_Schema }) {
   const db = useApi();
   const [value, setValue] = useState("");
   const isEditing = !!value.length;
   return (
-    <Box display="flex" flexDirection="column" gap={1}>
-      <Typography variant="body2" color="text.secondary" pl={1}>
-        Add a comment
-      </Typography>
+    <div className="flex flex-col gap-2">
+      <span className="pl-1 text-sm text-gray-600">Add a comment</span>
       <Editor value={value} onChange={setValue} />
       {isEditing && (
         <EditorActions
@@ -30,19 +28,25 @@ export function CreateActivityComment(props: { card: Card_Schema }) {
           }}
         />
       )}
-    </Box>
+    </div>
   );
 }
 
 function EditorActions(props: { onCancel: () => void; onComment: () => void }) {
   return (
-    <Box display="flex" justifyContent="flex-end" gap={1}>
-      <Button variant="outlined" size="small" onClick={props.onCancel}>
+    <div className="flex justify-end gap-2">
+      <button
+        className="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100"
+        onClick={props.onCancel}
+      >
         Cancel
-      </Button>
-      <Button variant="contained" size="small" onClick={props.onComment}>
+      </button>
+      <button
+        className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        onClick={props.onComment}
+      >
         Comment
-      </Button>
-    </Box>
+      </button>
+    </div>
   );
 }

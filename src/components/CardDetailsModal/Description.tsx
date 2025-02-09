@@ -1,36 +1,25 @@
-import { Subject, Edit } from "@mui/icons-material";
-import { Box, Button, Stack, SxProps, Typography } from "@mui/material";
-import { Editor } from "../Editor";
-import { Markdown } from "src/components/Markdown";
-import { UseBoolean, useBoolean } from "src/hooks/useBoolean";
-import { UseText, useText } from "src/hooks/useText";
+import { IconEdit, IconFileText } from "@tabler/icons-react";
+import { useBoolean } from "src/hooks/useBoolean";
+import { useText } from "src/hooks/useText";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
+import { Editor } from "../Editor";
+import { Markdown } from "src/components/Markdown";
 
 interface Props {
   card: Card_Schema;
 }
 
 export function Description(props: Props) {
-  const iconSx: SxProps = {
-    display: "flex",
-    alignSelf: "center",
-    justifySelf: "center",
-  };
-  const rootSx: SxProps = {
-    display: "grid",
-    gridTemplateColumns: "[icon] 40px [body] minmax(0, 1fr)",
-    rowGap: 1,
-    "&:hover .edit-button": {
-      visibility: "visible",
-    },
-  };
   const isEditing = useBoolean();
   const editText = useText();
+
   return (
-    <Box sx={rootSx}>
-      <Subject sx={iconSx} />
-      <Header editText={editText} isEditing={isEditing} card={props.card} />
+    <div className="hover:edit-button:visible space-y-2">
+      <div className="flex w-full items-center space-x-2">
+        <IconFileText className="self-center justify-self-center text-primary-600" />
+        <Header editText={editText} isEditing={isEditing} card={props.card} />
+      </div>
       <Content card={props.card} isEditing={isEditing} editText={editText} />
       {isEditing.value && (
         <EditorActions
@@ -39,34 +28,34 @@ export function Description(props: Props) {
           editText={editText}
         />
       )}
-    </Box>
+    </div>
   );
 }
 
 function Header(props: {
-  editText: UseText;
-  isEditing: UseBoolean;
+  editText: ReturnType<typeof useText>;
+  isEditing: ReturnType<typeof useBoolean>;
   card: Card_Schema;
 }) {
-  const { editText, isEditing, card: card } = props;
+  const { editText, isEditing, card } = props;
   const onEdit = () => {
     editText.setValue(card.description);
     isEditing.setTrue();
   };
   return (
-    <Stack direction="row" spacing={2} alignItems="center" width="100%">
-      <Typography variant="h6" fontSize={16} flex={1}>
+    <div className="flex w-full items-center space-x-2">
+      <span className="flex-1 text-lg font-semibold text-primary-600">
         Description
-      </Typography>
+      </span>
       {!isEditing.value && <EditButton onClick={onEdit} />}
-    </Stack>
+    </div>
   );
 }
 
 function EditorActions(props: {
   card: Card_Schema;
-  isEditing: UseBoolean;
-  editText: UseText;
+  isEditing: ReturnType<typeof useBoolean>;
+  editText: ReturnType<typeof useText>;
 }) {
   const db = useApi();
   const onSave = () => {
@@ -86,71 +75,58 @@ function EditorActions(props: {
     props.isEditing.setFalse();
   };
   return (
-    <Box
-      display="flex"
-      justifyContent="flex-end"
-      gap={1}
-      sx={{ gridColumnStart: "body" }}
-    >
-      <Button
-        variant="outlined"
-        size="small"
+    <div className="col-start-2 flex justify-end gap-2">
+      <button
+        className="rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100"
         onClick={props.isEditing.setFalse}
       >
         Cancel
-      </Button>
-      <Button variant="contained" size="small" onClick={onSave}>
+      </button>
+      <button
+        className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        onClick={onSave}
+      >
         Save
-      </Button>
-    </Box>
+      </button>
+    </div>
   );
 }
 
 function Content(props: {
   card: Card_Schema;
-  isEditing: UseBoolean;
-  editText: UseText;
+  isEditing: ReturnType<typeof useBoolean>;
+  editText: ReturnType<typeof useText>;
 }) {
-  const sx: SxProps = {
-    gridColumnStart: "body",
-    fontFamily: "body1.fontFamily",
-  };
   const onDoubleClick = () => {
     props.editText.setValue(props.card.description);
     props.isEditing.setTrue();
   };
   if (props.isEditing.value) {
     return (
-      <Box sx={sx}>
+      <div className="col-start-2">
         <Editor
           value={props.editText.value}
           onChange={props.editText.setValue}
           autoFocus
         />
-      </Box>
+      </div>
     );
   }
   return (
-    <Box sx={sx} onDoubleClick={onDoubleClick}>
+    <div className="col-start-2" onDoubleClick={onDoubleClick}>
       <Markdown>{props.card.description}</Markdown>
-    </Box>
+    </div>
   );
 }
 
 function EditButton(props: { onClick: () => void }) {
   return (
-    <Button
-      className="edit-button"
-      variant="text"
-      size="small"
-      style={{ gridColumnStart: "body" }}
-      startIcon={<Edit />}
+    <button
+      className="edit-button flex items-center space-x-1 border border-transparent px-2 py-1 text-sm hover:bg-gray-100"
       onClick={props.onClick}
-      sx={{
-        visibility: "hidden",
-      }}
     >
-      Edit
-    </Button>
+      <IconEdit size={16} />
+      <span>Edit</span>
+    </button>
   );
 }
