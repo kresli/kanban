@@ -11,6 +11,7 @@ import { Card_Schema } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "src/contants";
+import classNames from "classnames";
 
 interface Props {
   cardId: string;
@@ -65,7 +66,10 @@ function Title(props: { isDragging: boolean; card: Card_Schema }) {
   const isEdit = useBoolean();
   return (
     <div
-      className={`flex flex-col ${isDragging ? "opacity-0" : "opacity-100"}`}
+      className={classNames(
+        "flex flex-col",
+        isDragging ? "opacity-0" : "opacity-100",
+      )}
     >
       <ReadonlyTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />
       <EditableTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />

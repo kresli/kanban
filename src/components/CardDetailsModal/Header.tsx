@@ -5,7 +5,6 @@ import { useApi } from "src/hooks/useApi";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useBoolean } from "src/hooks/useBoolean";
 import { useState } from "react";
-import classNames from "classnames";
 
 export function Header(props: { card: Card_Schema; onClose: () => void }) {
   const db = useApi();
@@ -24,24 +23,37 @@ export function Header(props: { card: Card_Schema; onClose: () => void }) {
       },
     });
   return (
-    <div className="grid grid-cols-[40px_minmax(0,1fr)] gap-2">
-      <IconCreditCard className="mt-1 self-start justify-self-center" />
-      <div className="flex w-full items-center space-x-2">
-        <EditableInput
-          value={props.card.title}
-          onChange={onTitleChange}
-          className="text-lg font-semibold"
-        />
-        <button
-          onClick={props.onClose}
-          className="rounded p-1 hover:bg-gray-200"
-        >
-          <IconX size={16} />
-        </button>
-      </div>
+    <div className="border-b border-rim p-8 pb-4">
+      <Title
+        title={props.card.title}
+        onTitleChange={onTitleChange}
+        onClose={props.onClose}
+      />
       <div className="col-start-2 flex-grow">
         <ListPicker card={props.card} />
       </div>
+    </div>
+  );
+}
+
+function Title(props: {
+  title: string;
+  onTitleChange: (title: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="flex w-full items-center space-x-2">
+      <EditableInput
+        value={props.title}
+        onChange={props.onTitleChange}
+        className="text-lg font-semibold"
+      />
+      <button
+        onClick={props.onClose}
+        className="cursor-pointer rounded p-1 hover:bg-gray-200"
+      >
+        <IconX size={16} />
+      </button>
     </div>
   );
 }

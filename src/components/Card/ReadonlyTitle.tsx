@@ -17,10 +17,8 @@ export function ReadonlyTitle(props: Props) {
     props.draftTitle.setValue(props.card.title);
   };
   return (
-    <div className="relative flex items-center">
-      <span className="text-base leading-snug font-normal">
-        {props.card.title}
-      </span>
+    <div className="relative flex">
+      <span className="text-start text-sm font-normal">{props.card.title}</span>
       <button
         onClick={onClick}
         className="absolute top-1 right-1 hidden rounded bg-white p-1 group-hover:block hover:bg-gray-100"

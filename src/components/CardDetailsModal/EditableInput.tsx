@@ -45,7 +45,7 @@ export function EditableInput(props: {
       value={value}
       onChange={onChange}
       className={classNames(
-        "w-full border-none bg-transparent p-0 leading-snug focus:outline-none",
+        "w-full border-none bg-transparent p-0 leading-snug text-primary-900 focus:outline-none",
         props.className,
       )}
       onKeyDown={onKeyDown}

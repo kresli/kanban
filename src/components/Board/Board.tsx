@@ -44,13 +44,17 @@ export function Board(props: { boardId: string }) {
     <div
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className="box-border flex h-full w-full items-start justify-start overflow-y-hidden p-2"
+      className="box-border flex h-full w-full items-start justify-start overflow-y-hidden p-4"
     >
       {lists}
-      <div className="h-full px-1" onDragOver={onDragOver} onDrop={onDrop}>
+      <div
+        className="h-full max-w-[275px] min-w-[275px] px-1"
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+      >
         <button
           onClick={onCreateList}
-          className="rounded bg-blue-500 p-2 whitespace-nowrap text-white"
+          className="bg-whie w-full cursor-pointer rounded border border-primary-200 p-2 text-sm whitespace-nowrap text-primary-600 hover:border-primary-300 hover:bg-secondary-50"
         >
           Create new list
         </button>

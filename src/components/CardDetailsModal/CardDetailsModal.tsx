@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
 import classNames from "classnames";
+import { Card_Schema } from "src/database/schemas/card.schema";
 
 interface Props {
   cardId: string;
@@ -34,25 +35,33 @@ export function CardDetailsModal(props: Props) {
   return (
     <div
       className={classNames(
-        "bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black",
+        "bg-opacity-50 fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-auto bg-black/10",
         props.isOpen ? "block" : "hidden",
       )}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     >
-      <div
-        className="relative mx-auto my-6 w-full max-w-3xl bg-white p-4 shadow-lg"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-        <Header card={card} onClose={props.onClose} />
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-grow flex-col gap-2">
-            <Description card={card} />
-            <Activities card={card} />
+      <div className="absolute top-12">
+        <div
+          className="relative box-border h-full w-full max-w-3xl items-start justify-center space-y-4 rounded-lg border border-primary-300 bg-white shadow-lg"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <Header card={card} onClose={props.onClose} />
+          <div className="flex flex-row gap-2 p-8 pt-4">
+            <Content card={card} />
+            <Sidebar card={card} onClose={props.onClose} />
           </div>
-          <Sidebar card={card} onClose={props.onClose} />
         </div>
       </div>
+    </div>
+  );
+}
+
+function Content(props: { card: Card_Schema }) {
+  return (
+    <div className="flex flex-grow flex-col gap-8">
+      <Description card={props.card} />
+      <Activities card={props.card} />
     </div>
   );
 }

@@ -17,7 +17,7 @@ export function Description(props: Props) {
 
   return (
     <div className="hover:edit-button:visible grid grid-cols-[40px_minmax(0,1fr)] gap-2">
-      <IconFileText className="self-center justify-self-center" />
+      <IconFileText className="self-center justify-self-center text-primary-600" />
       <Header editText={editText} isEditing={isEditing} card={props.card} />
       <Content card={props.card} isEditing={isEditing} editText={editText} />
       {isEditing.value && (
@@ -43,7 +43,9 @@ function Header(props: {
   };
   return (
     <div className="flex w-full items-center space-x-2">
-      <span className="flex-1 text-lg font-semibold">Description</span>
+      <span className="flex-1 text-lg font-semibold text-primary-600">
+        Description
+      </span>
       {!isEditing.value && <EditButton onClick={onEdit} />}
     </div>
   );

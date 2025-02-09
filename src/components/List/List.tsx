@@ -91,8 +91,8 @@ export function List(props: Props) {
   );
 
   return (
-    <div className="h-full px-2" onDragOver={onDragOver} onDrop={onDrop}>
-      <div className="flex h-auto max-h-full max-w-[275px] min-w-[275px] flex-1 flex-col overflow-hidden rounded-lg bg-gray-100">
+    <div className="h-full px-1.5" onDragOver={onDragOver} onDrop={onDrop}>
+      <div className="flex h-auto max-h-full max-w-[275px] min-w-[275px] flex-1 flex-col overflow-hidden rounded-lg border border-rim bg-bg-main">
         <Header listId={props.listId} />
         <ScrollContainer>
           {cards}

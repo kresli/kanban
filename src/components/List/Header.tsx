@@ -12,7 +12,7 @@ export function Header(props: Props) {
     [db, props.listId],
   );
   return (
-    <h3 className="p-2 text-center text-lg font-semibold text-gray-800">
+    <h3 className="p-2 text-center font-semibold text-primary-600">
       {list?.title}
     </h3>
   );

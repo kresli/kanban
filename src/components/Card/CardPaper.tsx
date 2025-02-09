@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { PropsWithChildren } from "react";
 
 export function CardPaper(
@@ -10,12 +11,15 @@ export function CardPaper(
 ) {
   return (
     <div
-      className={`px-1 py-0.5 ${props.isDragging ? "opacity-50" : "opacity-100"}`}
+      className={classNames(
+        "px-2 py-1",
+        props.isDragging ? "opacity-50" : "opacity-100",
+      )}
       onDragOver={props.onDragOver}
       onClick={props.onClick}
     >
       <div
-        className="hover:outline-primary-500 relative z-0 cursor-pointer overflow-hidden rounded bg-white p-1 shadow-md hover:outline hover:outline-2 hover:outline-offset-1"
+        className="relative z-0 cursor-pointer overflow-hidden rounded border border-rim bg-white p-2 shadow-sm hover:border-secondary-300"
         draggable={true}
         onDragStart={props.onDragStart}
       >
