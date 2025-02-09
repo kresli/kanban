@@ -10,7 +10,7 @@ export function CreateActivityComment(props: { card: Card_Schema }) {
   const isEditing = !!value.length;
   return (
     <div className="flex flex-col gap-2">
-      <span className="pl-1 text-sm text-gray-600">Add a comment</span>
+      {/* <span className="pl-1 text-sm text-gray-600">Add a comment</span> */}
       <Editor value={value} onChange={setValue} />
       {isEditing && (
         <EditorActions

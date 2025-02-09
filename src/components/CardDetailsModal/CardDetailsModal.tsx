@@ -1,5 +1,4 @@
 import { Header } from "./Header";
-import { Description } from "./Description";
 import { Sidebar } from "./Sidebar";
 import { Activities } from "./Activities";
 import { useState } from "react";
@@ -41,13 +40,13 @@ export function CardDetailsModal(props: Props) {
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     >
-      <div className="absolute top-12">
+      <div className="absolute top-12 flex w-full items-center justify-center">
         <div
           className="relative mb-24 box-border h-full w-full max-w-3xl items-start justify-center space-y-4 rounded-lg border border-primary-300 bg-white shadow-lg"
           onMouseDown={(e) => e.stopPropagation()}
         >
           <Header card={card} onClose={props.onClose} />
-          <div className="flex flex-row gap-2 p-8 pt-4">
+          <div className="flex flex-row gap-4 p-8 pt-4">
             <Content card={card} />
             <Sidebar card={card} onClose={props.onClose} />
           </div>
