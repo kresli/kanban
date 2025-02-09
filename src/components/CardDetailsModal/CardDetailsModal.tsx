@@ -43,7 +43,7 @@ export function CardDetailsModal(props: Props) {
     >
       <div className="absolute top-12">
         <div
-          className="relative box-border h-full w-full max-w-3xl items-start justify-center space-y-4 rounded-lg border border-primary-300 bg-white shadow-lg"
+          className="relative mb-24 box-border h-full w-full max-w-3xl items-start justify-center space-y-4 rounded-lg border border-primary-300 bg-white shadow-lg"
           onMouseDown={(e) => e.stopPropagation()}
         >
           <Header card={card} onClose={props.onClose} />
@@ -60,7 +60,6 @@ export function CardDetailsModal(props: Props) {
 function Content(props: { card: Card_Schema }) {
   return (
     <div className="flex flex-grow flex-col gap-8">
-      <Description card={props.card} />
       <Activities card={props.card} />
     </div>
   );

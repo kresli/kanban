@@ -1,16 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
 import { useGoto } from "src/hooks/useGoto";
-import { useState } from "react";
-import { Board_Schema } from "src/database/schemas/board.schema";
-import { ROUTE_URL } from "src/utils/route-url";
-import classNames from "classnames";
-import { NavLink } from "react-router";
-import {
-  IconLayoutDashboardFilled,
-  IconPencil,
-  IconPlus,
-} from "@tabler/icons-react";
+import { IconLayoutDashboardFilled, IconPlus } from "@tabler/icons-react";
 import { BoardGroupItem } from "./BoardGroupItem";
 
 export function BoardsGroup() {

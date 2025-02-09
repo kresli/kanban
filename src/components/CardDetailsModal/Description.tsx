@@ -3,7 +3,6 @@ import { useBoolean } from "src/hooks/useBoolean";
 import { useText } from "src/hooks/useText";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
-import classNames from "classnames";
 import { Editor } from "../Editor";
 import { Markdown } from "src/components/Markdown";
 
@@ -16,9 +15,11 @@ export function Description(props: Props) {
   const editText = useText();
 
   return (
-    <div className="hover:edit-button:visible grid grid-cols-[40px_minmax(0,1fr)] gap-2">
-      <IconFileText className="self-center justify-self-center text-primary-600" />
-      <Header editText={editText} isEditing={isEditing} card={props.card} />
+    <div className="hover:edit-button:visible space-y-2">
+      <div className="flex w-full items-center space-x-2">
+        <IconFileText className="self-center justify-self-center text-primary-600" />
+        <Header editText={editText} isEditing={isEditing} card={props.card} />
+      </div>
       <Content card={props.card} isEditing={isEditing} editText={editText} />
       {isEditing.value && (
         <EditorActions

@@ -23,7 +23,7 @@ export function Header(props: { card: Card_Schema; onClose: () => void }) {
       },
     });
   return (
-    <div className="border-b border-rim p-8 pb-4">
+    <div className="sticky top-0 z-10 rounded-t-md border-b border-rim bg-white p-8 pb-4">
       <Title
         title={props.card.title}
         onTitleChange={onTitleChange}
