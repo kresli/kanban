@@ -3,7 +3,11 @@ import { Activity_Schema } from "./database/schemas/activity.schema";
 import { Database } from "./database/database";
 
 export class Api {
-  database = new Database();
+  database: Database;
+
+  constructor(databaseName: string) {
+    this.database = new Database(databaseName);
+  }
 
   generateId() {
     return crypto.randomUUID();

@@ -1,16 +1,9 @@
 import { useState } from "react";
-import { Api } from "src/api";
-import { ApiContext } from "src/contexts/api.context";
-import { initDB } from "./temp.init";
 import { Router } from "src/routes/Router";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ApiProvider } from "./ApiProvider";
 
 export function App() {
-  const [db] = useState(() => {
-    const db = new Api();
-    initDB(db, false);
-    return db;
-  });
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -19,14 +12,14 @@ export function App() {
             staleTime: Infinity,
           },
         },
-      })
+      }),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ApiContext.Provider value={db}>
+      <ApiProvider databaseName="kresli-kanban">
         <Router />
-      </ApiContext.Provider>
+      </ApiProvider>
     </QueryClientProvider>
   );
 }

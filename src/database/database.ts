@@ -9,8 +9,8 @@ export class Database extends Dexie {
   activities!: EntityTable<Activity_Schema, "id">;
   lists!: EntityTable<List_Schema, "id">;
   boards!: EntityTable<Board_Schema, "id">;
-  constructor() {
-    super("kresli-kanban");
+  constructor(databaseName: string) {
+    super(databaseName);
     this.version(1).stores({
       cards: createStoreKeys<Card_Schema>({
         authorId: true,

@@ -11,18 +11,16 @@ interface Props {
 }
 
 export function Activities(props: Props) {
-  const db = useApi();
+  const api = useApi();
   const acts = useLiveQuery(
-    () => db.getActivitiesByCardId(props.card.id),
-    [db, props.card.id],
+    () => api.getActivitiesByCardId(props.card.id),
+    [api, props.card.id],
   );
   const activities = useMemo(
     () =>
-      acts
-        ?.toSpliced(0, 1)
-        ?.map((activity) => (
-          <ActivitySwitch key={activity.id} activity={activity} />
-        )),
+      acts?.map((activity) => (
+        <ActivitySwitch key={activity.id} activity={activity} />
+      )),
     [acts],
   );
 
