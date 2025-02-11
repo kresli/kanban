@@ -42,19 +42,6 @@ const activities: Activity_Schema[] = [
     authorId: "neo",
   },
   {
-    id: "activity-4",
-    activityType: "card_update",
-    createdAt: "2022-01-02T12:00:00.000Z",
-    cardId: "card-1",
-    payload: {
-      description: {
-        oldValue: "",
-        newValue: "Add database indexing for performance",
-      },
-    },
-    authorId: "morpheus",
-  },
-  {
     id: "activity-5",
     activityType: "card_comment_create",
     createdAt: "2022-01-02T15:30:00.000Z",
@@ -96,8 +83,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 1,
     authorId: "neo",
-    description:
-      "Initialize the repository and set up the project folder structure.",
   },
   {
     id: "card-2",
@@ -106,8 +91,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 2,
     authorId: "morpheus",
-    description:
-      "Install necessary dependencies such as React, Express, and Mongoose.",
   },
   {
     id: "card-3",
@@ -115,7 +98,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 3,
     authorId: "john-wick",
-    description: "Define the Mongoose schemas for cards and lists.",
   },
   {
     id: "card-4",
@@ -123,7 +105,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 4,
     authorId: "trinity",
-    description: "Integrate Keycloak authentication for secure user access.",
   },
   {
     id: "card-5",
@@ -131,7 +112,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 5,
     authorId: "agent-smith",
-    description: "Develop RESTful APIs for CRUD operations on cards.",
   },
   {
     id: "card-6",
@@ -139,7 +119,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 6,
     authorId: "trinity",
-    description: "Create a React component to display card lists.",
   },
   {
     id: "card-7",
@@ -147,7 +126,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 7,
     authorId: "morpheus",
-    description: "Use Vanilla JS to enable drag-and-drop functionality.",
   },
   {
     id: "card-8",
@@ -156,8 +134,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 8,
     authorId: "neo",
-    description:
-      "Ensure API calls properly fetch and update cards in the database.",
   },
   {
     id: "card-9",
@@ -165,7 +141,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 9,
     authorId: "agent-smith",
-    description: "Improve frontend and backend performance where needed.",
   },
   {
     id: "card-10",
@@ -173,7 +148,6 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 10,
     authorId: "john-wick",
-    description: "Write unit and integration tests to validate functionality.",
   },
   {
     id: "card-11",
@@ -182,8 +156,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 1,
     authorId: "trinity",
-    description:
-      "Containerize the backend using Docker and set up a Docker Compose file.",
   },
   {
     id: "card-12",
@@ -191,7 +163,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 2,
     authorId: "morpheus",
-    description: "Add real-time updates to card movement using WebSockets.",
   },
   {
     id: "card-13",
@@ -199,7 +170,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 3,
     authorId: "agent-smith",
-    description: "Set up GitHub Actions to automate testing and deployment.",
   },
   {
     id: "card-14",
@@ -208,7 +178,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 4,
     authorId: "neo",
-    description: "Enhance the frontend appearance with Material-UI components.",
   },
   {
     id: "card-15",
@@ -216,7 +185,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 5,
     authorId: "trinity",
-    description: "Document API endpoints using Swagger.",
   },
   {
     id: "card-16",
@@ -224,7 +192,6 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 6,
     authorId: "morpheus",
-    description: "Resolve issues with card reordering and persistence.",
   },
   {
     id: "card-17",
@@ -232,7 +199,6 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 1,
     authorId: "john-wick",
-    description: "Host the frontend on Vercel or Netlify.",
   },
   {
     id: "card-18",
@@ -240,7 +206,6 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 2,
     authorId: "agent-smith",
-    description: "Improve MongoDB query performance by adding proper indexes.",
   },
   {
     id: "card-19",
@@ -248,7 +213,6 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 3,
     authorId: "neo",
-    description: "Test full user flows with Cypress.",
   },
   {
     id: "card-20",
@@ -257,7 +221,6 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 4,
     authorId: "morpheus",
-    description: "Set up logging with Winston or another tool to track errors.",
   },
 ];
 

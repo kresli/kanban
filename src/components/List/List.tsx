@@ -8,7 +8,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
-import classNames from "classnames";
 
 export interface Props {
   listId: string;
@@ -53,7 +52,6 @@ export function List(props: Props) {
         payload: {
           title: newCardData.title,
           authorId: newCardData.authorId,
-          description: newCardData.description,
           id: newCardData.id,
           listId: newCardData.listId,
           position: newCardData.position,
@@ -71,7 +69,6 @@ export function List(props: Props) {
       listId: props.listId,
       position,
       authorId: "1",
-      description: "",
       id: api.generateId(),
     };
     setNewCardData(card);

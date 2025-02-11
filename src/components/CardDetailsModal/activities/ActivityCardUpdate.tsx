@@ -55,8 +55,6 @@ function localize(text: AcceptedFields) {
       return false;
     case "title":
       return "Title";
-    case "description":
-      return "Description";
     default:
       return text;
   }

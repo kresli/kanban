@@ -14,7 +14,6 @@ export class Database extends Dexie {
     this.version(1).stores({
       cards: createStoreKeys<Card_Schema>({
         authorId: true,
-        description: true,
         listId: true,
         position: true,
         title: true,

@@ -3,6 +3,5 @@ export interface Card_Schema {
   title: string;
   listId: string;
   position: number;
-  description: string;
   authorId: string;
 }
