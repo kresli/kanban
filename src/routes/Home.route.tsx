@@ -5,7 +5,7 @@ import { useGoto } from "src/hooks/useGoto";
 
 export function HomeRoute() {
   const db = useApi();
-  const boardsQuery = useLiveQuery(() => db.getBoards(), [db]);
+  const boardsQuery = useLiveQuery(() => db.board.getAll(), [db]);
   const boards = boardsQuery?.map((board) => (
     <Board key={board.id} board={board} />
   ));

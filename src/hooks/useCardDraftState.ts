@@ -35,7 +35,7 @@ export function useCardDraftState(api: Api): CardDraft {
 
   const saveCard: CardDraft["saveCard"] = useCallback(async () => {
     if (!card || !originalCard) return;
-    const observable = liveQuery(() => api.getCardById(card.id));
+    const observable = liveQuery(() => api.card.getById(card.id));
     const subscribtion = observable.subscribe((card) => {
       if (!card) return;
       subscribtion.unsubscribe();
@@ -52,7 +52,7 @@ export function useCardDraftState(api: Api): CardDraft {
         payload[k] = change;
       }
     }
-    api.updateCard(card);
+    api.card.update(card);
   }, [api, card, originalCard]);
 
   const clearCard: CardDraft["clearCard"] = useCallback(() => {

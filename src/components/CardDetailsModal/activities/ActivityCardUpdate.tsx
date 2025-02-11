@@ -21,10 +21,10 @@ function ActivityTagSwitcher(props: { activity: Activity_Card_Update_Schema }) {
   const api = useApi();
   const { listId } = props.activity.payload;
   const fromList = useLiveQuery(() =>
-    listId ? api.getListById(listId.oldValue) : null,
+    listId ? api.list.getById(listId.oldValue) : null,
   );
   const toList = useLiveQuery(() =>
-    listId ? api.getListById(listId.newValue) : null,
+    listId ? api.list.getById(listId.newValue) : null,
   );
   if (fromList && toList) {
     return (

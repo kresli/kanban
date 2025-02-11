@@ -8,6 +8,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
+import { Api } from "src/api";
+import { generateId } from "src/api/generate-id";
 
 export interface Props {
   listId: string;
@@ -20,7 +22,7 @@ export function List(props: Props) {
 
   const api = useApi();
   const listCards = useLiveQuery(
-    () => api.getCardByListId(props.listId),
+    () => api.card.getByListId(props.listId),
     [api, props.listId],
   );
   const onDrop = (e: React.DragEvent) => {
@@ -43,7 +45,7 @@ export function List(props: Props) {
   const onSubmitNewCard = async () => {
     if (!newCardData) return;
     if (newCardData.title) {
-      await api.createCard({
+      await api.card.create({
         title: newCardData.title,
         listId: newCardData.listId,
       });
@@ -59,7 +61,7 @@ export function List(props: Props) {
       listId: props.listId,
       position,
       authorId: "1",
-      id: api.generateId(),
+      id: generateId(),
     };
     setNewCardData(card);
   };

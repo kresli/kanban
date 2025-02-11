@@ -22,7 +22,7 @@ interface Props {
 export function Card(props: Props) {
   const db = useApi();
   const cardQuery = useLiveQuery(
-    () => db.getCardById(props.cardId),
+    () => db.card.getById(props.cardId),
     [db, props.cardId],
   );
   const { cardDraft } = props;

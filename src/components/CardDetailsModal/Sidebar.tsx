@@ -26,9 +26,9 @@ export function Sidebar(props: { card: Card_Schema; onClose: () => void }) {
 
 function ListSelector(props: { card: Card_Schema }) {
   const api = useApi();
-  const lists = useLiveQuery(() => api.getLists(), [api]);
+  const lists = useLiveQuery(() => api.list.getAll(), [api]);
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    api.updateCard({ ...props.card, listId: e.target.value });
+    api.card.update({ ...props.card, listId: e.target.value });
   };
   return (
     <div className="relative flex w-full appearance-none flex-row items-center justify-center space-x-2 rounded border border-rim bg-primary-50 text-sm font-light text-primary-500 hover:bg-primary-100 focus:bg-primary-100 focus:outline-none active:bg-primary-100 active:outline-none">
@@ -53,7 +53,7 @@ function ListSelector(props: { card: Card_Schema }) {
 function DeleteButton(props: { card: Card_Schema; onClick: () => void }) {
   const api = useApi();
   const onClick = async () => {
-    await api.deleteCard(props.card.id);
+    await api.card.delete(props.card.id);
     props.onClick();
   };
   return (

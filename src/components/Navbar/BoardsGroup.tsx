@@ -3,17 +3,18 @@ import { useApi } from "src/hooks/useApi";
 import { useGoto } from "src/hooks/useGoto";
 import { IconLayoutDashboardFilled, IconPlus } from "@tabler/icons-react";
 import { BoardGroupItem } from "./BoardGroupItem";
+import { generateId } from "src/api/generate-id";
 
 export function BoardsGroup() {
   const api = useApi();
   const goto = useGoto();
-  const boardsQuery = useLiveQuery(() => api.getBoards(), [api]);
+  const boardsQuery = useLiveQuery(() => api.board.getAll(), [api]);
   const boards = boardsQuery?.map((board) => (
     <BoardGroupItem key={board.id} board={board} />
   ));
   const onCreateBoard = async () => {
-    const boardId = api.generateId();
-    await api.createBoard({
+    const boardId = generateId();
+    await api.board.create({
       title: "New Board",
       description: "",
     });

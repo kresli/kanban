@@ -8,7 +8,7 @@ export function Board(props: { boardId: string }) {
   const cardDraft = useCardDraftState(api);
 
   const listsQuery = useLiveQuery(
-    () => api.getListByBoardId(props.boardId),
+    () => api.list.getByBoardId(props.boardId),
     [api, props.boardId],
   );
   const lists = listsQuery?.map((list) => (
@@ -23,7 +23,7 @@ export function Board(props: { boardId: string }) {
   };
 
   const onCreateList = async () => {
-    await api.createList({
+    await api.list.create({
       title: "New List",
       boardId: props.boardId,
     });

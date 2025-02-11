@@ -16,7 +16,7 @@ interface Props {
 export function CardDetailsModal(props: Props) {
   const db = useApi();
   const card = useLiveQuery(
-    () => db.getCardById(props.cardId),
+    () => db.card.getById(props.cardId),
     [db, props.cardId],
   );
   const [mouseDownOnBackground, setMouseDownOnBackground] = useState(false);

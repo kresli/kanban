@@ -8,7 +8,7 @@ interface Props {
 export function Header(props: Props) {
   const db = useApi();
   const list = useLiveQuery(
-    () => db.getListById(props.listId),
+    () => db.list.getById(props.listId),
     [db, props.listId],
   );
   return (

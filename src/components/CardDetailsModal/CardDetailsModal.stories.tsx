@@ -1,13 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from "@storybook/react";
-import {
-  expect,
-  fn,
-  getByText,
-  userEvent,
-  waitFor,
-  within,
-} from "@storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "@storybook/test";
 import { CardDetailsModal } from "./CardDetailsModal";
 import { useEffect, useState } from "react";
 import { ApiProvider } from "../ApiProvider";
@@ -40,22 +33,22 @@ export const Basic: Story = {
           clearDatabaseOnInit: true,
         });
 
-        const board = await api.createBoard({
+        const board = await api.board.create({
           title: "Board 1",
           description: "This is a board description.",
         });
 
-        const list = await api.createList({
+        const list = await api.list.create({
           title: "To Do",
           boardId: board.id,
         });
 
-        await api.createList({
+        await api.list.create({
           title: "Doing",
           boardId: board.id,
         });
 
-        const card = await api.createCard({
+        const card = await api.card.create({
           title: "Card 1",
           listId: list.id,
         });

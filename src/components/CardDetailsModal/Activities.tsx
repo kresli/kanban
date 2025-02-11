@@ -13,7 +13,7 @@ interface Props {
 export function Activities(props: Props) {
   const api = useApi();
   const acts = useLiveQuery(
-    () => api.getActivitiesByCardId(props.card.id),
+    () => api.activity.getByCardId(props.card.id),
     [api, props.card.id],
   );
   const activities = useMemo(

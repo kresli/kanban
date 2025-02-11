@@ -11,7 +11,7 @@ export function BoardGroupItem(props: { board: Board_Schema }) {
   const { board } = props;
   const api = useApi();
   const onTitleChange = async (value: string) => {
-    await api.updateBoard({
+    await api.board.update({
       id: board.id,
       title: value,
     });

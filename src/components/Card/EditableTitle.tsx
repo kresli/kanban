@@ -13,7 +13,7 @@ export function EditableTitle(props: Props) {
   const db = useApi();
   if (!props.isEdit.value) return null;
   const applyChanges = async () => {
-    await db.updateCard({
+    await db.card.update({
       id: props.card.id,
       title: props.draftTitle.value,
     });
