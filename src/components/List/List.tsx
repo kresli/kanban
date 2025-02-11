@@ -40,22 +40,12 @@ export function List(props: Props) {
     });
   };
 
-  const onSubmitNewCard = () => {
+  const onSubmitNewCard = async () => {
     if (!newCardData) return;
     if (newCardData.title) {
-      api.emitActivity({
-        id: api.generateId(),
-        activityType: "card_create",
-        authorId: "user",
-        cardId: newCardData.id,
-        createdAt: new Date().toISOString(),
-        payload: {
-          title: newCardData.title,
-          authorId: newCardData.authorId,
-          id: newCardData.id,
-          listId: newCardData.listId,
-          position: newCardData.position,
-        },
+      await api.createCard({
+        title: newCardData.title,
+        listId: newCardData.listId,
       });
     }
     setNewCardData(null);

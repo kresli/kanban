@@ -51,15 +51,9 @@ function ListSelector(props: { card: Card_Schema }) {
 }
 
 function DeleteButton(props: { card: Card_Schema; onClick: () => void }) {
-  const db = useApi();
-  const onClick = () => {
-    db.emitActivity({
-      id: db.generateId(),
-      activityType: "card_delete",
-      authorId: "user",
-      cardId: props.card.id,
-      createdAt: db.generateDate(),
-    });
+  const api = useApi();
+  const onClick = async () => {
+    await api.deleteCard(props.card.id);
     props.onClick();
   };
   return (

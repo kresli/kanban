@@ -11,18 +11,9 @@ export function BoardGroupItem(props: { board: Board_Schema }) {
   const { board } = props;
   const api = useApi();
   const onTitleChange = async (value: string) => {
-    await api.emitActivity({
-      activityType: "board_update",
-      authorId: "user",
-      id: api.generateId(),
-      boardId: board.id,
-      createdAt: api.generateDate(),
-      payload: {
-        title: {
-          oldValue: board.title,
-          newValue: value,
-        },
-      },
+    await api.updateBoard({
+      id: board.id,
+      title: value,
     });
     setIsEdit(false);
   };

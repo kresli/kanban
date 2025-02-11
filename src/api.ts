@@ -38,14 +38,18 @@ export class Api {
       authorId: this.userId,
       ...props,
     };
-    await this.emitActivity({
+    const activity: Activity_Schema = {
       activityType: "board_create",
       authorId: payload.authorId,
       boardId: payload.id,
       createdAt: payload.createdAt,
       id: this.generateId(),
       payload,
-    });
+    };
+    await Promise.all([
+      this.database.boards.add(activity.payload),
+      this.database.activities.add(activity),
+    ]);
     return payload;
   }
 
@@ -57,21 +61,22 @@ export class Api {
       position: 1,
       ...props,
     };
-    await this.emitActivity({
+    const activity: Activity_Schema = {
       activityType: "list_create",
       authorId: payload.authorId,
       createdAt: payload.createdAt,
       id: this.generateId(),
       payload,
-    });
+    };
+    await Promise.all([
+      this.database.lists.add(activity.payload),
+      this.database.activities.add(activity),
+    ]);
+
     return payload;
   }
 
-  async createCard(props: {
-    title: string;
-    description: string;
-    listId: string;
-  }) {
+  async createCard(props: { title: string; listId: string }) {
     const payload = {
       id: this.generateId(),
       createdAt: this.generateDate(),
@@ -79,47 +84,64 @@ export class Api {
       position: 1,
       ...props,
     };
-    await this.emitActivity({
+    const activity: Activity_Schema = {
       activityType: "card_create",
       authorId: payload.authorId,
       cardId: payload.id,
       createdAt: payload.createdAt,
       id: this.generateId(),
       payload,
-    });
+    };
+    const promises = Promise.all([
+      this.database.cards.add(activity.payload),
+      this.database.activities.add(activity),
+    ]);
+    await promises;
     return payload;
   }
 
   async updateCard(props: { id: string; title?: string; listId?: string }) {
     const card = await this.getCardById(props.id);
     if (!card) return;
-    const diffEntries = Object.entries(props).filter(([key, value]) => {
-      return card[key as keyof Card_Schema] !== value;
-    });
-    const payload = Object.fromEntries(
-      diffEntries.map(([key, value]) => {
-        return [
-          key,
-          {
-            oldValue: card[key as keyof Card_Schema],
-            newValue: value,
-          },
-        ];
-      }),
-    );
+    const updateDiff = generateUpdateDiff(card, props);
+    if (!updateDiff.hasUpdate) return;
+    const payload = updateDiff.diffPatch;
 
-    await this.emitActivity({
+    const activity: Activity_Schema = {
       activityType: "card_update",
       authorId: this.userId,
       cardId: props.id,
       createdAt: this.generateDate(),
       id: this.generateId(),
       payload,
-    });
+    };
+
+    await Promise.all([
+      this.database.cards.update(activity.cardId, updateDiff.uniqueValues),
+      this.database.activities.add(activity),
+    ]);
+    return payload;
+  }
+
+  async deleteCard(cardId: string) {
+    const card = await this.getCardById(cardId);
+    if (!card) return;
+    const activity: Activity_Schema = {
+      activityType: "card_delete",
+      authorId: this.userId,
+      cardId,
+      createdAt: this.generateDate(),
+      id: this.generateId(),
+    };
+    await Promise.all([
+      this.database.cards.delete(cardId),
+      this.database.activities.add(activity),
+    ]);
+    return card;
   }
 
   async createCardComment(props: { cardId: string; comment: string }) {
-    await this.emitActivity({
+    const activity: Activity_Schema = {
       activityType: "card_comment_create",
       authorId: this.userId,
       cardId: props.cardId,
@@ -128,58 +150,33 @@ export class Api {
       payload: {
         comment: props.comment,
       },
-    });
+    };
+    await this.database.activities.add(activity);
   }
 
-  /** this is the only function which can modify tables. All others should call this instead of modifying a table by themselves */
-  async emitActivity(activity: Activity_Schema) {
-    switch (activity.activityType) {
-      case "card_create": {
-        this.database.cards.add(activity.payload);
-        this.database.activities.add(activity);
-        break;
-      }
-      case "card_update": {
-        const updatedEntries = Object.entries(activity.payload).map(
-          ([key, value]) => [key, value.newValue],
-        );
-        const updatedCard: Partial<Card_Schema> =
-          Object.fromEntries(updatedEntries);
-        this.database.cards.update(activity.cardId, updatedCard);
-        this.database.activities.add(activity);
-        break;
-      }
-      case "card_delete": {
-        this.database.cards.delete(activity.cardId);
-        this.database.activities.add(activity);
-        break;
-      }
-      case "card_comment_create": {
-        this.database.activities.add(activity);
-        break;
-      }
-      case "board_create": {
-        this.database.boards.add(activity.payload);
-        this.database.activities.add(activity);
-        break;
-      }
-      case "list_create": {
-        this.database.lists.add(activity.payload);
-        this.database.activities.add(activity);
-        break;
-      }
-      case "board_update": {
-        const updatedEntries = Object.entries(activity.payload).map(
-          ([key, value]) => [key, value.newValue],
-        );
-        const updatedBoard = Object.fromEntries(updatedEntries);
-        this.database.boards.update(activity.boardId, updatedBoard);
-        this.database.activities.add(activity);
-        break;
-      }
-      default:
-        console.error("Unknown action type", activity);
-    }
+  async updateBoard(props: {
+    id: string;
+    title?: string;
+    description?: string;
+  }) {
+    const board = await this.getBoardById(props.id);
+    if (!board) return;
+    const updateDiff = generateUpdateDiff(board, props);
+    if (!updateDiff.hasUpdate) return;
+    const payload = updateDiff.diffPatch;
+    const activity: Activity_Schema = {
+      activityType: "board_update",
+      authorId: this.userId,
+      boardId: props.id,
+      createdAt: this.generateDate(),
+      id: this.generateId(),
+      payload,
+    };
+    await Promise.all([
+      this.database.boards.update(props.id, updateDiff.uniqueValues),
+      this.database.activities.add(activity),
+    ]);
+    return this.database.boards.get(props.id);
   }
 
   /** card */
@@ -245,4 +242,44 @@ export class Api {
       .equals(cardId)
       .sortBy("createdAt");
   }
+}
+
+type DiffPatchValue<T> = {
+  oldValue: T;
+  newValue: T;
+};
+
+type DiffPatch<T> = {
+  [K in keyof T]?: DiffPatchValue<T[K]>;
+};
+
+interface UpdateDiff<T> {
+  uniqueValues: Partial<T>;
+  diffPatch: DiffPatch<T>;
+  hasUpdate: boolean;
+}
+
+function generateUpdateDiff<T>(
+  original: T,
+  updated: Partial<T>,
+): UpdateDiff<T> {
+  const diffEntries = Object.entries(updated).filter(([key, value]) => {
+    return original[key as keyof T] !== value;
+  });
+  const uniqueValues = Object.fromEntries(
+    diffEntries.map(([key, value]) => [key, value]),
+  ) as Partial<T>;
+  const diffPatch = Object.fromEntries(
+    diffEntries.map(([key, value]) => {
+      return [
+        key,
+        {
+          oldValue: original[key as keyof T],
+          newValue: value,
+        },
+      ];
+    }),
+  ) as DiffPatch<T>;
+  const hasUpdate = Object.keys(diffPatch).length > 0;
+  return { uniqueValues, diffPatch, hasUpdate };
 }

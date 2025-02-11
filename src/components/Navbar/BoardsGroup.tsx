@@ -13,19 +13,9 @@ export function BoardsGroup() {
   ));
   const onCreateBoard = async () => {
     const boardId = api.generateId();
-    await api.emitActivity({
-      activityType: "board_create",
-      authorId: "user",
-      id: api.generateId(),
-      boardId,
-      createdAt: api.generateDate(),
-      payload: {
-        title: "New Board",
-        authorId: "user",
-        createdAt: api.generateDate(),
-        description: "",
-        id: boardId,
-      },
+    await api.createBoard({
+      title: "New Board",
+      description: "",
     });
     goto.board(boardId);
   };

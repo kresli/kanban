@@ -57,7 +57,6 @@ export const Basic: Story = {
 
         const card = await api.createCard({
           title: "Card 1",
-          description: "This is a card description.",
           listId: list.id,
         });
         setCardId(card.id);
