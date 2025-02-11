@@ -8,9 +8,12 @@ interface Props {
 
 export function ActivityCommentCreate(props: Props) {
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div
+      data-testid="activity-comment-create"
+      className="overflow-hidden rounded-lg border border-rim bg-white"
+    >
       <div>
-        <div className="flex items-center space-x-2 border-b border-gray-300 bg-gray-100 px-4 py-2">
+        <div className="flex items-center space-x-2 border-b border-rim bg-gray-100 px-4 py-2">
           <span className="text-base font-medium">
             {props.activity.authorId}
           </span>

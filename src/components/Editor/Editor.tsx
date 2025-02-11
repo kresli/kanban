@@ -5,39 +5,48 @@ import classNames from "classnames";
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
   autoFocus?: boolean;
 }
 
 export function Editor(props: Props) {
   const [tabIndex, setTabIndex] = useState(0);
-  const handleChange = (newValue: number) => {
-    setTabIndex(newValue);
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    props.onChange(e.target.value);
+  };
+  const onKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && e.metaKey) {
+      e.preventDefault();
+      props.onSubmit(props.value);
+    }
   };
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white focus-within:outline focus-within:outline-2 focus-within:outline-blue-500">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-rim bg-white focus-within:outline-2 focus-within:outline-secondary-500">
       <div className="flex border-b border-gray-300 bg-gray-100">
         <button
           className={classNames("px-4 py-2 text-sm", {
-            "border-b-2 border-blue-500 font-bold": tabIndex === 0,
+            "border-b-2 border-secondary-500 font-bold": tabIndex === 0,
           })}
-          onClick={() => handleChange(0)}
+          onClick={() => setTabIndex(0)}
         >
           Write
         </button>
         <button
           className={classNames("px-4 py-2 text-sm", {
-            "border-b-2 border-blue-500 font-bold": tabIndex === 1,
+            "border-b-2 border-secondary-500 font-bold": tabIndex === 1,
           })}
-          onClick={() => handleChange(1)}
+          onClick={() => setTabIndex(1)}
         >
           Preview
         </button>
       </div>
       <TabPanel value={tabIndex} index={0}>
         <textarea
+          data-testid="editor"
           className="h-full w-full border-none p-2 focus:outline-none"
           value={props.value}
-          onChange={(e) => props.onChange(e.target.value)}
+          onKeyDown={onKeydown}
+          onChange={onChange}
           autoFocus={props.autoFocus}
         />
       </TabPanel>

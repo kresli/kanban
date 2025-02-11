@@ -1,10 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
+import {
+  expect,
+  fn,
+  getByText,
+  userEvent,
+  waitFor,
+  within,
+} from "@storybook/test";
 import { CardDetailsModal } from "./CardDetailsModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ApiProvider } from "../ApiProvider";
-import { Database } from "src/database/database";
 import { Api } from "src/api";
 
 const meta = {
@@ -21,103 +27,76 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function useDB(callback: (db: Database) => void) {
-  useEffect(() => {
-    const init = async () => {
-      const db = new Database("test");
-      await db.delete({ disableAutoOpen: false });
-      callback(db);
-    };
-    init();
-  }, [callback]);
-}
-
 export const Basic: Story = {
   render: () => {
+    const userId = "Santa Claus";
+    const databaseName = "test";
+    const [cardId, setCardId] = useState<string | null>(null);
     useEffect(() => {
-      new Database("test").delete({ disableAutoOpen: false });
-      const api = new Api("test");
-      api.emitActivity({
-        activityType: "board_create",
-        authorId: "john-doe",
-        boardId: "1",
-        createdAt: new Date().toISOString(),
-        id: api.generateId(),
-        payload: {
+      const start = async () => {
+        const api = new Api({
+          databaseName,
+          userId,
+          clearDatabaseOnInit: true,
+        });
+
+        const board = await api.createBoard({
           title: "Board 1",
           description: "This is a board description.",
-          authorId: "john-doe",
-          createdAt: new Date().toISOString(),
-          id: "board-1",
-        },
-      });
-      api.emitActivity({
-        activityType: "list_create",
-        authorId: "john-doe",
-        createdAt: new Date().toISOString(),
-        id: api.generateId(),
-        payload: {
+        });
+
+        const list = await api.createList({
           title: "To Do",
-          position: 1,
-          authorId: "john-doe",
-          boardId: "1",
-          createdAt: new Date().toISOString(),
-          id: "todo",
-        },
-      });
-      api.emitActivity({
-        activityType: "card_create",
-        authorId: "john-doe",
-        createdAt: new Date().toISOString(),
-        id: api.generateId(),
-        cardId: "card-1",
-        payload: {
-          title: "Card 12",
+          boardId: board.id,
+        });
+
+        await api.createList({
+          title: "Doing",
+          boardId: board.id,
+        });
+
+        const card = await api.createCard({
+          title: "Card 1",
           description: "This is a card description.",
-          authorId: "john-doe",
-          listId: "todo",
-          position: 10,
-          id: "card-1",
-        },
-      });
+          listId: list.id,
+        });
+        setCardId(card.id);
+      };
+      start();
     }, []);
 
-    // useDB((db) => {
-    //   db.boards.add({
-    //     id: "1",
-    //     title: "Board 1",
-    //     description: "This is a board description.",
-    //     authorId: "john-doe",
-    //     createdAt: new Date().toISOString(),
-    //   });
-    //   db.lists.add({
-    //     id: "todo",
-    //     title: "To Do",
-    //     position: 1,
-    //     authorId: "john-doe",
-    //     boardId: "1",
-    //     createdAt: new Date().toISOString(),
-    //   });
-    //   db.cards.add({
-    //     id: "1",
-    //     title: "Card 1",
-    //     description: "This is a card description.",
-    //     authorId: "john-doe",
-    //     listId: "todo",
-    //     position: 10,
-    //   });
-    // });
     return (
       <div>
-        <ApiProvider databaseName="test">
-          <CardDetailsModal isOpen={true} onClose={() => {}} cardId="card-1" />
+        <ApiProvider databaseName={databaseName} userId={userId}>
+          {cardId && (
+            <CardDetailsModal
+              isOpen={true}
+              onClose={() => {}}
+              cardId={cardId}
+            />
+          )}
         </ApiProvider>
       </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    await waitFor(() => within(canvasElement).getByTestId("card-details"));
+    const card = within(canvasElement);
+    expect(card.getByText("Card 1")).toBeInTheDocument();
+    // write comment
+    const editor = card.getByTestId("editor");
+    await userEvent.click(editor);
+    await userEvent.type(editor, "This is a comment.");
+    // submit comment
+    const commentButton = card.getByRole("button", { name: "Comment" });
+    await userEvent.click(commentButton);
+    expect(card.getByTestId("activity-comment-create")).toHaveTextContent(
+      "This is a comment.",
     );
   },
   args: {
     isOpen: true,
     onClose: fn(),
-    cardId: "1",
+    cardId: "",
   },
 };

@@ -17,7 +17,7 @@ export function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ApiProvider databaseName="kresli-kanban">
+      <ApiProvider databaseName="kresli-kanban" userId="john-doe">
         <Router />
       </ApiProvider>
     </QueryClientProvider>

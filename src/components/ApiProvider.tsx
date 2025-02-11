@@ -6,10 +6,14 @@ import { ApiContext } from "src/contexts/api.context";
 export function ApiProvider(
   props: PropsWithChildren<{
     databaseName: string;
+    userId: string;
   }>,
 ) {
   const [api] = useState(() => {
-    const db = new Api(props.databaseName);
+    const db = new Api({
+      databaseName: props.databaseName,
+      userId: props.userId,
+    });
     initDB(db, false);
     return db;
   });

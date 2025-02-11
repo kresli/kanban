@@ -1,12 +1,23 @@
 import { Card_Schema } from "./database/schemas/card.schema";
 import { Activity_Schema } from "./database/schemas/activity.schema";
 import { Database } from "./database/database";
+import { Activity_Board_Create_Schema } from "./database/schemas/activity-board-create.schema";
+import { Board_Schema } from "./database/schemas/board.schema";
 
 export class Api {
   database: Database;
+  userId: string;
 
-  constructor(databaseName: string) {
-    this.database = new Database(databaseName);
+  constructor(config: {
+    databaseName: string;
+    userId: string;
+    clearDatabaseOnInit?: boolean;
+  }) {
+    this.userId = config.userId;
+    if (config.clearDatabaseOnInit) {
+      indexedDB.deleteDatabase(config.databaseName);
+    }
+    this.database = new Database(config.databaseName);
   }
 
   generateId() {
@@ -17,6 +28,110 @@ export class Api {
     return new Date().toISOString();
   }
 
+  async createBoard(props: {
+    title: string;
+    description: string;
+  }): Promise<Board_Schema> {
+    const payload: Activity_Board_Create_Schema["payload"] = {
+      id: this.generateId(),
+      createdAt: this.generateDate(),
+      authorId: this.userId,
+      ...props,
+    };
+    await this.emitActivity({
+      activityType: "board_create",
+      authorId: payload.authorId,
+      boardId: payload.id,
+      createdAt: payload.createdAt,
+      id: this.generateId(),
+      payload,
+    });
+    return payload;
+  }
+
+  async createList(props: { title: string; boardId: string }) {
+    const payload = {
+      id: this.generateId(),
+      createdAt: this.generateDate(),
+      authorId: this.userId,
+      position: 1,
+      ...props,
+    };
+    await this.emitActivity({
+      activityType: "list_create",
+      authorId: payload.authorId,
+      createdAt: payload.createdAt,
+      id: this.generateId(),
+      payload,
+    });
+    return payload;
+  }
+
+  async createCard(props: {
+    title: string;
+    description: string;
+    listId: string;
+  }) {
+    const payload = {
+      id: this.generateId(),
+      createdAt: this.generateDate(),
+      authorId: this.userId,
+      position: 1,
+      ...props,
+    };
+    await this.emitActivity({
+      activityType: "card_create",
+      authorId: payload.authorId,
+      cardId: payload.id,
+      createdAt: payload.createdAt,
+      id: this.generateId(),
+      payload,
+    });
+    return payload;
+  }
+
+  async updateCard(props: { id: string; title?: string; listId?: string }) {
+    const card = await this.getCardById(props.id);
+    if (!card) return;
+    const diffEntries = Object.entries(props).filter(([key, value]) => {
+      return card[key as keyof Card_Schema] !== value;
+    });
+    const payload = Object.fromEntries(
+      diffEntries.map(([key, value]) => {
+        return [
+          key,
+          {
+            oldValue: card[key as keyof Card_Schema],
+            newValue: value,
+          },
+        ];
+      }),
+    );
+
+    await this.emitActivity({
+      activityType: "card_update",
+      authorId: this.userId,
+      cardId: props.id,
+      createdAt: this.generateDate(),
+      id: this.generateId(),
+      payload,
+    });
+  }
+
+  async createCardComment(props: { cardId: string; comment: string }) {
+    await this.emitActivity({
+      activityType: "card_comment_create",
+      authorId: this.userId,
+      cardId: props.cardId,
+      createdAt: this.generateDate(),
+      id: this.generateId(),
+      payload: {
+        comment: props.comment,
+      },
+    });
+  }
+
+  /** this is the only function which can modify tables. All others should call this instead of modifying a table by themselves */
   async emitActivity(activity: Activity_Schema) {
     switch (activity.activityType) {
       case "card_create": {
@@ -98,6 +213,10 @@ export class Api {
     const card = await this.database.cards.get(id);
     if (!card) return null;
     return this.database.lists.get(card.listId);
+  }
+
+  async getLists() {
+    return this.database.lists.toArray();
   }
 
   /** board */

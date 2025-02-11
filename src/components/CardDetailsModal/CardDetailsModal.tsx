@@ -33,6 +33,7 @@ export function CardDetailsModal(props: Props) {
 
   return (
     <div
+      data-testid="card-details"
       className={classNames(
         "bg-opacity-50 fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-auto bg-black/10",
         props.isOpen ? "block" : "hidden",

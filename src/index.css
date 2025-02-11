@@ -35,6 +35,21 @@
   --color-rim: var(--color-gray-300);
 }
 
+/** single line code block */
+code:not(pre code) {
+  background-color: var(--color-primary-100);
+  padding: 0.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+/** multiline code block */
+pre {
+  background-color: var(--color-primary-100);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
 @utility gradient-border {
   position: relative;
   border-radius: var(--radius-lg); /* Uses Tailwind's built-in border-radius */
