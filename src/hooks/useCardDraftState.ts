@@ -1,7 +1,7 @@
 import { liveQuery } from "dexie";
 import { useCallback, useState } from "react";
 import { Api } from "src/api";
-import { Card_Schema } from "src/database/schemas/card.schema";
+import { Card_Schema } from "src/database/schemas/new/card.schema";
 
 export interface CardDraft {
   card: Card_Schema | null;
@@ -52,7 +52,11 @@ export function useCardDraftState(api: Api): CardDraft {
         payload[k] = change;
       }
     }
-    api.card.update(card);
+    api.card.update(card.id, {
+      listId: card.listId,
+      position: card.position,
+      title: card.title,
+    });
   }, [api, card, originalCard]);
 
   const clearCard: CardDraft["clearCard"] = useCallback(() => {

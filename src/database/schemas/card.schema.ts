@@ -4,4 +4,5 @@ export interface Card_Schema {
   listId: string;
   position: number;
   authorId: string;
+  createdAt: string;
 }

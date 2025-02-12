@@ -22,7 +22,7 @@ export function EditableInput(props: { card: Card_Schema }) {
       isEditing.setFalse();
       text.setValue("");
     } else {
-      await api.card.update({ id: props.card.id, title: trimmedValue });
+      await api.card.update(props.card.id, { title: trimmedValue });
       isEditing.setFalse();
       text.setValue("");
     }

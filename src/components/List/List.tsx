@@ -48,6 +48,7 @@ export function List(props: Props) {
       await api.card.create({
         title: newCardData.title,
         listId: newCardData.listId,
+        position: newCardData.position,
       });
     }
     setNewCardData(null);

@@ -4,6 +4,8 @@ import { ApiList } from "./api-list";
 import { ApiBoard } from "./api-board";
 import { ApiActivity } from "./api-activity";
 import { ApiComment } from "./api-comment";
+import { ApiCardCommits } from "./api-card-commits";
+import { Activity_Schema } from "src/database/schemas/activity.schema";
 
 export class Api {
   database: Database;
@@ -13,6 +15,7 @@ export class Api {
   board: ApiBoard;
   activity: ApiActivity;
   comment: ApiComment;
+  cardCommit: ApiCardCommits;
 
   constructor(config: {
     databaseName: string;
@@ -29,5 +32,17 @@ export class Api {
     this.board = new ApiBoard(this);
     this.activity = new ApiActivity(this);
     this.comment = new ApiComment(this);
+    this.cardCommit = new ApiCardCommits(this);
+  }
+
+  async getActivitiesByCardId(cardId: string): Promise<Activity_Schema[]> {
+    const [comments, cardCommits] = await Promise.all([
+      this.comment.getByCardId(cardId),
+      this.cardCommit.getByCardId(cardId),
+    ]);
+
+    return [...comments, ...cardCommits].sort((a, b) => {
+      return a.createdAt < b.createdAt ? -1 : 1;
+    });
   }
 }

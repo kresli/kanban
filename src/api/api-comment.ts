@@ -1,7 +1,7 @@
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { Api } from "./api";
 import { generateDate } from "./generate-date";
 import { generateId } from "./generate-id";
+import { generateDiff } from "./generate-diff";
 
 export class ApiComment {
   private api: Api;
@@ -10,16 +10,36 @@ export class ApiComment {
   }
 
   async create(props: { cardId: string; comment: string }) {
-    const activity: Activity_Schema = {
-      activityType: "card_comment_create",
-      authorId: this.api.userId,
+    const commitId = generateId();
+    const commentId = generateId();
+    const createdAt = generateDate();
+    const diff = generateDiff({ text: props.comment });
+    await Promise.all([
+      this.api.database.commentsCommits.add({
+        type: "comment_update_commit",
+        authorId: this.api.userId,
+        cardId: props.cardId,
+        createdAt,
+        id: commitId,
+        commentId,
+        diff,
+      }),
+    ]);
+    this.api.database.comments.add({
+      type: "comment",
+      id: commentId,
       cardId: props.cardId,
-      createdAt: generateDate(),
-      id: generateId(),
-      payload: {
-        comment: props.comment,
-      },
-    };
-    await this.api.database.activities.add(activity);
+      authorId: this.api.userId,
+      createdAt,
+      commitId,
+      text: props.comment,
+    });
+  }
+
+  async getByCardId(cardId: string) {
+    return this.api.database.comments
+      .where("cardId")
+      .equals(cardId)
+      .sortBy("createdAt");
   }
 }

@@ -26,7 +26,7 @@ export class ApiList {
     };
     await Promise.all([
       this.api.database.lists.add(activity.payload),
-      this.api.database.activities.add(activity),
+      // this.api.database.activities.add(activity),
     ]);
 
     return payload;

@@ -7,9 +7,10 @@ export class ApiActivity {
   }
 
   async getByCardId(cardId: string) {
-    return this.api.database.activities
-      .where("cardId")
-      .equals(cardId)
-      .sortBy("createdAt");
+    return [];
+    // return this.api.database.activities
+    //   .where("cardId")
+    //   .equals(cardId)
+    //   .sortBy("createdAt");
   }
 }

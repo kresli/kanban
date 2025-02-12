@@ -7,8 +7,8 @@ export function CreateActivityComment(props: { card: Card_Schema }) {
   const api = useApi();
   const [value, setValue] = useState("");
   const isEditing = !!value.length;
-  const onSubmit = (submitValue: string) => {
-    api.comment.create({
+  const onSubmit = async (submitValue: string) => {
+    await api.comment.create({
       cardId: props.card.id,
       comment: submitValue,
     });

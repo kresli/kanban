@@ -22,6 +22,7 @@ export class ApiBoard {
       authorId: this.api.userId,
       ...props,
     };
+
     const activity: Activity_Schema = {
       activityType: "board_create",
       authorId: payload.authorId,
@@ -30,10 +31,12 @@ export class ApiBoard {
       id: generateId(),
       payload,
     };
+
     await Promise.all([
       this.api.database.boards.add(activity.payload),
-      this.api.database.activities.add(activity),
+      // this.api.database.activities.add(activity),
     ]);
+
     return payload;
   }
 
@@ -53,7 +56,7 @@ export class ApiBoard {
     };
     await Promise.all([
       this.api.database.boards.update(props.id, updateDiff.uniqueValues),
-      this.api.database.activities.add(activity),
+      // this.api.database.activities.add(activity),
     ]);
     return this.api.database.boards.get(props.id);
   }
