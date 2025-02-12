@@ -5,7 +5,6 @@ import { ApiBoard } from "./api-board";
 import { ApiActivity } from "./api-activity";
 import { ApiComment } from "./api-comment";
 import { ApiCardCommits } from "./api-card-commits";
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 
 export class Api {
   database: Database;
@@ -35,7 +34,7 @@ export class Api {
     this.cardCommit = new ApiCardCommits(this);
   }
 
-  async getActivitiesByCardId(cardId: string): Promise<Activity_Schema[]> {
+  async getActivitiesByCardId(cardId: string) {
     const [comments, cardCommits] = await Promise.all([
       this.comment.getByCardId(cardId),
       this.cardCommit.getByCardId(cardId),

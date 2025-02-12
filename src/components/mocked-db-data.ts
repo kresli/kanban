@@ -1,80 +1,80 @@
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { Board_Schema } from "src/database/schemas/board.schema";
 import { List_Schema } from "src/database/schemas/list.schema";
 import { Card_Schema } from "src/database/schemas/card.schema";
 
-const activities: Activity_Schema[] = [
-  {
-    id: "activity-2",
-    activityType: "card_comment_create",
-    createdAt: "2022-01-01T19:00:00.000Z",
-    payload: {
-      comment:
-        "**This card** is a `critical` part of the project. It requires careful planning and execution to ensure that the database schema is efficient, scalable, and secure. The schema should be designed to support the application's data model, business logic, and performance requirements. It should also consider future changes, data migrations, and database maintenance cards. The database design should be documented and reviewed by the team to ensure that it meets the project's requirements and quality standards.",
-    },
-    authorId: "tony-stark",
-    cardId: "card-1",
-  },
-  {
-    id: "activity-1",
-    activityType: "card_update",
-    createdAt: "2022-01-01T00:00:00.000Z",
-    cardId: "card-1",
-    payload: {
-      title: {
-        oldValue: "TODO: Design database schema",
-        newValue: "Design database schema",
-      },
-    },
-    authorId: "john-wick",
-  },
-  {
-    id: "activity-3",
-    activityType: "card_update",
-    createdAt: "2022-01-02T10:00:00.000Z",
-    cardId: "card-1",
-    payload: {
-      position: {
-        oldValue: 1,
-        newValue: 2,
-      },
-    },
-    authorId: "neo",
-  },
-  {
-    id: "activity-5",
-    activityType: "card_comment_create",
-    createdAt: "2022-01-02T15:30:00.000Z",
-    authorId: "trinity",
-    cardId: "card-1",
-    payload: {
-      comment: "Reviewed and approved changes for the description update.",
-    },
-  },
-  {
-    id: "activity-6",
-    activityType: "card_update",
-    createdAt: "2022-01-03T09:00:00.000Z",
-    cardId: "card-1",
-    payload: {
-      listId: {
-        oldValue: "todo",
-        newValue: "in-progress",
-      },
-    },
-    authorId: "agent-smith",
-  },
-  {
-    id: "activity-7",
-    activityType: "card_comment_create",
-    createdAt: "2022-01-03T10:30:00.000Z",
-    cardId: "card-1",
-    payload: {
-      comment: "Card moved to in-progress list.",
-    },
-    authorId: "john-wick",
-  },
-];
+export const activities: unknown[] = [];
+// const activities: Activity_Schema[] = [
+//   {
+//     id: "activity-2",
+//     activityType: "card_comment_create",
+//     createdAt: "2022-01-01T19:00:00.000Z",
+//     payload: {
+//       comment:
+//         "**This card** is a `critical` part of the project. It requires careful planning and execution to ensure that the database schema is efficient, scalable, and secure. The schema should be designed to support the application's data model, business logic, and performance requirements. It should also consider future changes, data migrations, and database maintenance cards. The database design should be documented and reviewed by the team to ensure that it meets the project's requirements and quality standards.",
+//     },
+//     authorId: "tony-stark",
+//     cardId: "card-1",
+//   },
+//   {
+//     id: "activity-1",
+//     activityType: "card_update",
+//     createdAt: "2022-01-01T00:00:00.000Z",
+//     cardId: "card-1",
+//     payload: {
+//       title: {
+//         oldValue: "TODO: Design database schema",
+//         newValue: "Design database schema",
+//       },
+//     },
+//     authorId: "john-wick",
+//   },
+//   {
+//     id: "activity-3",
+//     activityType: "card_update",
+//     createdAt: "2022-01-02T10:00:00.000Z",
+//     cardId: "card-1",
+//     payload: {
+//       position: {
+//         oldValue: 1,
+//         newValue: 2,
+//       },
+//     },
+//     authorId: "neo",
+//   },
+//   {
+//     id: "activity-5",
+//     activityType: "card_comment_create",
+//     createdAt: "2022-01-02T15:30:00.000Z",
+//     authorId: "trinity",
+//     cardId: "card-1",
+//     payload: {
+//       comment: "Reviewed and approved changes for the description update.",
+//     },
+//   },
+//   {
+//     id: "activity-6",
+//     activityType: "card_update",
+//     createdAt: "2022-01-03T09:00:00.000Z",
+//     cardId: "card-1",
+//     payload: {
+//       listId: {
+//         oldValue: "todo",
+//         newValue: "in-progress",
+//       },
+//     },
+//     authorId: "agent-smith",
+//   },
+//   {
+//     id: "activity-7",
+//     activityType: "card_comment_create",
+//     createdAt: "2022-01-03T10:30:00.000Z",
+//     cardId: "card-1",
+//     payload: {
+//       comment: "Card moved to in-progress list.",
+//     },
+//     authorId: "john-wick",
+//   },
+// ];
 
 const cards: Card_Schema[] = [
   {
@@ -83,6 +83,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 1,
     authorId: "neo",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-2",
@@ -91,6 +92,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 2,
     authorId: "morpheus",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-3",
@@ -98,6 +100,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 3,
     authorId: "john-wick",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-4",
@@ -105,6 +108,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 4,
     authorId: "trinity",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-5",
@@ -112,6 +116,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 5,
     authorId: "agent-smith",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-6",
@@ -119,6 +124,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 6,
     authorId: "trinity",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-7",
@@ -126,6 +132,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 7,
     authorId: "morpheus",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-8",
@@ -134,6 +141,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 8,
     authorId: "neo",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-9",
@@ -141,6 +149,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 9,
     authorId: "agent-smith",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-10",
@@ -148,6 +157,7 @@ const cards: Card_Schema[] = [
     listId: "todo",
     position: 10,
     authorId: "john-wick",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-11",
@@ -156,6 +166,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 1,
     authorId: "trinity",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-12",
@@ -163,6 +174,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 2,
     authorId: "morpheus",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-13",
@@ -170,6 +182,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 3,
     authorId: "agent-smith",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-14",
@@ -178,6 +191,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 4,
     authorId: "neo",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-15",
@@ -185,6 +199,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 5,
     authorId: "trinity",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-16",
@@ -192,6 +207,7 @@ const cards: Card_Schema[] = [
     listId: "inprogress",
     position: 6,
     authorId: "morpheus",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-17",
@@ -199,6 +215,7 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 1,
     authorId: "john-wick",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-18",
@@ -206,6 +223,7 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 2,
     authorId: "agent-smith",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-19",
@@ -213,6 +231,7 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 3,
     authorId: "neo",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "card-20",
@@ -221,6 +240,7 @@ const cards: Card_Schema[] = [
     listId: "done",
     position: 4,
     authorId: "morpheus",
+    createdAt: new Date().toISOString(),
   },
 ];
 

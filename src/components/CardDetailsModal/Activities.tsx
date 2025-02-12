@@ -5,8 +5,6 @@ import { useApi } from "src/hooks/useApi";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useMemo } from "react";
 import { Comment } from "./Comment";
-import { Comment_Schema } from "src/database/schemas/new/comment.schema";
-import { Card_Commit_Schema } from "src/database/schemas/new/card-commit.schema";
 import { ActivitySwitch } from "./activities/ActivitySwitch";
 
 interface Props {
@@ -17,6 +15,10 @@ export function Activities(props: Props) {
   const api = useApi();
   const activityArray = useLiveQuery(() =>
     api.getActivitiesByCardId(props.card.id),
+  );
+  const comments = useLiveQuery(
+    () => api.comment.getByCardId(props.card.id),
+    [props.card.id],
   );
   const activities = activityArray?.map((activity) => (
     <ActivitySwitch key={activity.id} activity={activity} />

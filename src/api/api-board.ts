@@ -1,10 +1,11 @@
-import { Board_Schema } from "src/database/schemas/board.schema";
+import { Board_Schema, BoardData } from "src/database/schemas/board.schema";
 import { Api } from "./api";
-import { Activity_Board_Create_Schema } from "src/database/schemas/activity-board-create.schema";
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { generateId } from "./generate-id";
 import { generateDate } from "./generate-date";
 import { generateUpdateDiff } from "./generate-update-diff";
+import { CommitType } from "src/database/schemas/commit-type";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
+import { generateDiff } from "./generate-diff";
 
 export class ApiBoard {
   private api: Api;
@@ -12,32 +13,28 @@ export class ApiBoard {
     this.api = api;
   }
 
-  async create(props: {
-    title: string;
-    description: string;
-  }): Promise<Board_Schema> {
-    const payload: Activity_Board_Create_Schema["payload"] = {
+  async create(props: { title: string; description: string }) {
+    const board: Board_Schema = {
       id: generateId(),
       createdAt: generateDate(),
       authorId: this.api.userId,
       ...props,
     };
-
-    const activity: Activity_Schema = {
-      activityType: "board_create",
-      authorId: payload.authorId,
-      boardId: payload.id,
-      createdAt: payload.createdAt,
+    const commit: Commit_Schema = {
+      type: CommitType.BOARD_CREATE,
+      authorId: this.api.userId,
+      boardId: board.id,
+      createdAt: generateDate(),
+      data: board,
       id: generateId(),
-      payload,
     };
 
     await Promise.all([
-      this.api.database.boards.add(activity.payload),
-      // this.api.database.activities.add(activity),
+      this.api.database.boards.add(board),
+      this.api.database.commits.add(commit),
     ]);
 
-    return payload;
+    return this.api.database.boards.get(board.id);
   }
 
   async update(props: { id: string; title?: string; description?: string }) {
@@ -45,18 +42,19 @@ export class ApiBoard {
     if (!board) return;
     const updateDiff = generateUpdateDiff(board, props);
     if (!updateDiff.hasUpdate) return;
-    const payload = updateDiff.diffPatch;
-    const activity: Activity_Schema = {
-      activityType: "board_update",
+
+    const commit: Commit_Schema = {
+      type: CommitType.BOARD_UPDATE,
       authorId: this.api.userId,
       boardId: props.id,
       createdAt: generateDate(),
       id: generateId(),
-      payload,
+      diff: generateDiff(props, board),
     };
+    const updatedBoard: Partial<BoardData> = props;
     await Promise.all([
-      this.api.database.boards.update(props.id, updateDiff.uniqueValues),
-      // this.api.database.activities.add(activity),
+      this.api.database.boards.update(props.id, updatedBoard),
+      this.api.database.commits.add(commit),
     ]);
     return this.api.database.boards.get(props.id);
   }

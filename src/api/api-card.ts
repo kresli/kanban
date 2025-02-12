@@ -1,8 +1,14 @@
 import { Api } from "./api";
-import { Card_Schema } from "src/database/schemas/new/card.schema";
 import { generateDate } from "./generate-date";
 import { generateId } from "./generate-id";
 import { generateDiff } from "./generate-diff";
+import {
+  Card_Commit_Schema,
+  Card_Schema,
+  CardData,
+} from "src/database/schemas/card.schema";
+import { CommitType } from "src/database/schemas/commit-type";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 
 export class ApiCard {
   private api: Api;
@@ -12,24 +18,23 @@ export class ApiCard {
 
   async create(props: Pick<Card_Schema, "title" | "listId" | "position">) {
     const cardId = generateId();
-    const commitId = generateId();
     const card: Card_Schema = {
       id: cardId,
       authorId: this.api.userId,
       createdAt: generateDate(),
-      commitId,
       ...props,
+    };
+    const commit: Commit_Schema = {
+      type: CommitType.CARD_CREATE,
+      authorId: this.api.userId,
+      cardId,
+      createdAt: generateDate(),
+      data: card,
+      id: generateId(),
     };
     await Promise.all([
       this.api.database.cards.add(card),
-      this.api.database.cardsCommits.add({
-        type: "card_update_commit",
-        authorId: this.api.userId,
-        cardId: cardId,
-        createdAt: generateDate(),
-        id: commitId,
-        diff: generateDiff(props),
-      }),
+      this.api.database.commits.add(commit),
     ]);
     return this.api.database.cards.get(cardId);
   }
@@ -41,37 +46,40 @@ export class ApiCard {
     const card = await this.getById(id);
     if (!card) return;
     const commitId = generateId();
-    const updated: Partial<Pick<Card_Schema, "listId" | "position" | "title">> =
-      Object.fromEntries(
-        Object.entries(props).filter(
-          ([key, value]) => card[key as keyof Card_Schema] !== value,
-        ),
-      );
+    const updated: Partial<CardData> = Object.fromEntries(
+      Object.entries(props).filter(
+        ([key, value]) => card[key as keyof Card_Schema] !== value,
+      ),
+    );
     if (Object.keys(updated).length === 0) return;
-    console.log(generateDiff(props));
+
+    const commit: Commit_Schema = {
+      type: CommitType.CARD_UPDATE,
+      authorId: this.api.userId,
+      cardId: id,
+      createdAt: generateDate(),
+      id: commitId,
+      diff: generateDiff(props, card),
+    };
+
     await Promise.all([
-      this.api.database.cards.update(id, {
-        commitId,
-        ...updated,
-      }),
-      this.api.database.cardsCommits.add({
-        type: "card_update_commit",
-        authorId: this.api.userId,
-        cardId: id,
-        createdAt: generateDate(),
-        id: commitId,
-        diff: generateDiff(props, card),
-      }),
+      this.api.database.cards.update(id, updated),
+      this.api.database.commits.add(commit),
     ]);
     return this.api.database.cards.get(id);
   }
 
   async delete(id: string) {
+    const commit: Commit_Schema = {
+      type: CommitType.CARD_DELETE,
+      authorId: this.api.userId,
+      cardId: id,
+      createdAt: generateDate(),
+      id: generateId(),
+    };
     await Promise.all([
       this.api.database.cards.delete(id),
-      this.api.database.cardsCommits.where("cardId").equals(id).delete(),
-      this.api.database.comments.where("cardId").equals(id).delete(),
-      this.api.database.commentsCommits.where("cardId").equals(id).delete(),
+      this.api.database.commits.add(commit),
     ]);
   }
 

@@ -2,6 +2,9 @@ import { Api } from "./api";
 import { generateDate } from "./generate-date";
 import { generateId } from "./generate-id";
 import { generateDiff } from "./generate-diff";
+import { CommitType } from "src/database/schemas/commit-type";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
+import { Comment_Schema } from "src/database/schemas/comment.schema";
 
 export class ApiComment {
   private api: Api;
@@ -13,27 +16,30 @@ export class ApiComment {
     const commitId = generateId();
     const commentId = generateId();
     const createdAt = generateDate();
-    const diff = generateDiff({ text: props.comment });
-    await Promise.all([
-      this.api.database.commentsCommits.add({
-        type: "comment_update_commit",
-        authorId: this.api.userId,
-        cardId: props.cardId,
-        createdAt,
-        id: commitId,
-        commentId,
-        diff,
-      }),
-    ]);
-    this.api.database.comments.add({
-      type: "comment",
-      id: commentId,
-      cardId: props.cardId,
+
+    const commit: Commit_Schema = {
+      type: CommitType.COMMENT_CREATE,
       authorId: this.api.userId,
       createdAt,
-      commitId,
+      id: commitId,
+      commentId,
+      cardId: props.cardId,
+      data: {
+        text: props.comment,
+      },
+    };
+    const comment: Comment_Schema = {
+      authorId: this.api.userId,
+      createdAt,
+      id: commentId,
       text: props.comment,
-    });
+      cardId: props.cardId,
+      type: CommitType.COMMENT,
+    };
+    await Promise.all([
+      this.api.database.comments.add(comment),
+      this.api.database.commits.add(commit),
+    ]);
   }
 
   async getByCardId(cardId: string) {

@@ -1,4 +1,4 @@
-import { Commit_Diff_Schema } from "src/database/schemas/new/commit-diff.schema";
+import { Commit_Diff_Schema } from "src/database/schemas/commit-diff.schema";
 
 export function generateDiff<T>(
   updated: Partial<T>,

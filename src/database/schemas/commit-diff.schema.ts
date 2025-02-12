@@ -1,4 +1,4 @@
-export type Commit_Diff_Schema<T, K extends keyof T> = {
+export type Commit_Diff_Schema<T, K extends keyof T = keyof T> = {
   [Key in K]?: DiffValue<T[Key]>;
 };
 

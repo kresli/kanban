@@ -1,9 +1,9 @@
 import { CardPaper } from "./CardPaper";
-import { Card_Schema } from "src/database/schemas/card.schema";
+import { Card_Schema, CardData } from "src/database/schemas/card.schema";
 
 interface Props {
-  cardDraft: Card_Schema;
-  onChange: (card: Card_Schema) => void;
+  cardDraft: CardData;
+  onChange: (card: CardData) => void;
   onSubmit: () => void;
 }
 

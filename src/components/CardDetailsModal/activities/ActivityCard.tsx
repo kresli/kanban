@@ -1,12 +1,12 @@
 import { IconTag } from "@tabler/icons-react";
 import { FormatedDate } from "./FormatedDate";
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { PropsWithChildren } from "react";
 import classNames from "classnames";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 
 export function ActivityCard(
   props: PropsWithChildren<{
-    activity: Activity_Schema;
+    activity: Commit_Schema;
     testid?: string;
   }>,
 ) {

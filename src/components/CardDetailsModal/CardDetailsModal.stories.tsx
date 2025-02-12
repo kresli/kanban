@@ -37,6 +37,7 @@ export const Basic: Story = {
           title: "Board 1",
           description: "This is a board description.",
         });
+        if (!board) return;
 
         const list = await api.list.create({
           title: "To Do",

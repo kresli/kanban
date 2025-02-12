@@ -5,7 +5,7 @@ import { CreateCardButton } from "./CreateCardButton";
 import { CreateCard } from "src/components/Card/CreateCard";
 import { useApi } from "src/hooks/useApi";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Card_Schema } from "src/database/schemas/card.schema";
+import { Card_Schema, CardData } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
 import { Api } from "src/api";
@@ -18,7 +18,7 @@ export interface Props {
 
 export function List(props: Props) {
   const { cardDraft } = props;
-  const [newCardData, setNewCardData] = useState<Card_Schema | null>(null);
+  const [newCardData, setNewCardData] = useState<CardData | null>(null);
 
   const api = useApi();
   const listCards = useLiveQuery(
@@ -57,12 +57,10 @@ export function List(props: Props) {
   const onCreateNewCardClick = () => {
     if (!listCards) return;
     const position = Math.max(...listCards.map((card) => card.position), 10);
-    const card: Card_Schema = {
+    const card: CardData = {
       title: "",
       listId: props.listId,
       position,
-      authorId: "1",
-      id: generateId(),
     };
     setNewCardData(card);
   };

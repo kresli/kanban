@@ -1,14 +1,12 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { ActivityCard, ActivityTag } from "./ActivityCard";
-import { Activity_Card_Update_Schema } from "src/database/schemas/activity-card-update.schema";
 import { useApi } from "src/hooks/useApi";
-import { Card_Commit_Schema } from "src/database/schemas/new/card-commit.schema";
+import { Card_Commit_Schema } from "src/database/schemas/card.schema";
+import { CommitType } from "src/database/schemas/commit-type";
 
 interface Props {
   activity: Card_Commit_Schema;
 }
-
-type AcceptedFields = keyof Activity_Card_Update_Schema["payload"];
 
 export function ActivityCardUpdate(props: Props) {
   return (
@@ -28,6 +26,7 @@ function ActivityTagSwitcher(props: { activity: Card_Commit_Schema }) {
   const toList = useLiveQuery(() =>
     listId ? api.list.getById(listId.to) : null,
   );
+  if (props.activity.type !== CommitType.CARD_UPDATE) return;
   if (toList) {
     return (
       <>

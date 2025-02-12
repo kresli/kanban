@@ -1,7 +1,9 @@
 import { format, parseISO } from "date-fns";
 import { Markdown } from "src/components/Markdown";
-import { Activity_Card_Comment_Create_Schema } from "src/database/schemas/activity-card-comment-create.schema";
-import { Comment_Schema } from "src/database/schemas/new/comment.schema";
+import {
+  Comment_Schema,
+  CommentData,
+} from "src/database/schemas/comment.schema";
 
 interface Props {
   comment: Comment_Schema;

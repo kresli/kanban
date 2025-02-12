@@ -7,7 +7,7 @@ export class ApiCardCommits {
   }
 
   async getByCardId(cardId: string) {
-    return this.api.database.cardsCommits
+    return this.api.database.commits
       .where("cardId")
       .equals(cardId)
       .sortBy("createdAt");

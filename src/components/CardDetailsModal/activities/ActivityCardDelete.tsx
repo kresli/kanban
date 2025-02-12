@@ -1,8 +1,8 @@
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 import { ActivityCard } from "./ActivityCard";
-import { Activity_Card_Delete_Schema } from "src/database/schemas/activity-card-delete.schema";
 
 interface Props {
-  activity: Activity_Card_Delete_Schema;
+  activity: Commit_Schema;
 }
 
 export function ActivityCardDelete(props: Props) {

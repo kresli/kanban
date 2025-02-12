@@ -1,9 +1,9 @@
 import { format, parseISO } from "date-fns";
 import { Markdown } from "src/components/Markdown";
-import { Activity_Card_Comment_Create_Schema } from "src/database/schemas/activity-card-comment-create.schema";
+import { Comment_Schema } from "src/database/schemas/comment.schema";
 
 interface Props {
-  activity: Activity_Card_Comment_Create_Schema;
+  activity: Comment_Schema;
 }
 
 export function ActivityCommentCreate(props: Props) {
@@ -20,7 +20,7 @@ export function ActivityCommentCreate(props: Props) {
           <FormatedDate activity={props.activity} />
         </div>
         <div className="p-4">
-          <Markdown>{props.activity.payload.comment}</Markdown>
+          <Markdown>{props.activity.text}</Markdown>
         </div>
       </div>
     </div>

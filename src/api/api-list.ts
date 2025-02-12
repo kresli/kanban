@@ -1,7 +1,9 @@
-import { Activity_Schema } from "src/database/schemas/activity.schema";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 import { Api } from "./api";
 import { generateDate } from "./generate-date";
 import { generateId } from "./generate-id";
+import { CommitType } from "src/database/schemas/commit-type";
+import { List_Schema } from "src/database/schemas/list.schema";
 
 export class ApiList {
   private api: Api;
@@ -10,22 +12,24 @@ export class ApiList {
   }
 
   async create(props: { title: string; boardId: string }) {
-    const payload = {
+    const payload: List_Schema = {
       id: generateId(),
       createdAt: generateDate(),
       authorId: this.api.userId,
       position: 1,
       ...props,
     };
-    const activity: Activity_Schema = {
-      activityType: "list_create",
-      authorId: payload.authorId,
-      createdAt: payload.createdAt,
+    const commit: Commit_Schema = {
+      type: CommitType.LIST_CREATE,
+      authorId: this.api.userId,
+      createdAt: generateDate(),
+      data: payload,
       id: generateId(),
-      payload,
+      listId: payload.id,
     };
     await Promise.all([
-      this.api.database.lists.add(activity.payload),
+      this.api.database.lists.add(payload),
+      this.api.database.commits.add(commit),
       // this.api.database.activities.add(activity),
     ]);
 

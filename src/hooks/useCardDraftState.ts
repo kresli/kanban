@@ -1,7 +1,7 @@
 import { liveQuery } from "dexie";
 import { useCallback, useState } from "react";
 import { Api } from "src/api";
-import { Card_Schema } from "src/database/schemas/new/card.schema";
+import { Card_Schema } from "src/database/schemas/card.schema";
 
 export interface CardDraft {
   card: Card_Schema | null;
