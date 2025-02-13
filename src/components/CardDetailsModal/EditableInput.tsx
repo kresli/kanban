@@ -17,7 +17,6 @@ export function EditableInput(props: { card: Card_Schema }) {
 
   const onSubmit = async () => {
     const trimmedValue = text.value.trim().trimStart();
-    console.log({ trimmedValue, title });
     if (!trimmedValue || trimmedValue === title) {
       isEditing.setFalse();
       text.setValue("");

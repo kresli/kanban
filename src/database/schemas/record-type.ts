@@ -1,4 +1,3 @@
-/** todo - rename to SchemaType */
 export const enum RecordType {
   BOARD_CREATE = "BOARD_CREATE",
   BOARD_UPDATE = "BOARD_UPDATE",

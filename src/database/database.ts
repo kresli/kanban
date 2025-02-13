@@ -4,6 +4,7 @@ import { Board_Schema } from "./schemas/board.schema";
 import { Card_Schema } from "./schemas/card.schema";
 import { Comment_Schema } from "./schemas/comment.schema";
 import { Commit_Schema } from "./schemas/commit.schema";
+import { exportDB, importDB } from "dexie-export-import";
 
 export class Database extends Dexie {
   cards!: EntityTable<Card_Schema, "id">;
@@ -63,6 +64,36 @@ export class Database extends Dexie {
         cardId: true,
       }),
     });
+  }
+  async download() {
+    const blob = await exportDB(this, { prettyJson: true });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "indexeddb_backup.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+  }
+
+  async upload() {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        await Promise.all(this.tables.map((table) => table.clear()));
+        const db = await importDB(file);
+        console.log("Database restored:", db.name);
+        window.location.reload();
+      }
+    };
+    document.body.appendChild(fileInput);
+    fileInput.click();
+    document.body.removeChild(fileInput);
   }
 }
 

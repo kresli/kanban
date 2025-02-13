@@ -14,6 +14,8 @@ export function ApiProvider(
       databaseName: props.databaseName,
       userId: props.userId,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).kanbanApi = db;
     initDB(db, false);
     return db;
   });
