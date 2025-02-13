@@ -8,7 +8,7 @@ export function Board(props: { boardId: string }) {
   const cardDraft = useCardDraftState(api);
 
   const listsQuery = useLiveQuery(
-    () => api.getListByBoardId(props.boardId),
+    () => api.list.getByBoardId(props.boardId),
     [api, props.boardId],
   );
   const lists = listsQuery?.map((list) => (
@@ -23,20 +23,9 @@ export function Board(props: { boardId: string }) {
   };
 
   const onCreateList = async () => {
-    const listId = api.generateId();
-    await api.emitActivity({
-      activityType: "list_create",
-      id: listId,
-      authorId: "user",
-      createdAt: api.generateDate(),
-      payload: {
-        authorId: "user",
-        boardId: props.boardId,
-        title: "New List",
-        id: listId,
-        createdAt: api.generateDate(),
-        position: (listsQuery?.at(-1)?.position ?? 0) + 10,
-      },
+    await api.list.create({
+      title: "New List",
+      boardId: props.boardId,
     });
   };
 

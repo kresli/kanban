@@ -16,7 +16,7 @@ interface Props {
 export function CardDetailsModal(props: Props) {
   const db = useApi();
   const card = useLiveQuery(
-    () => db.getCardById(props.cardId),
+    () => db.card.getById(props.cardId),
     [db, props.cardId],
   );
   const [mouseDownOnBackground, setMouseDownOnBackground] = useState(false);
@@ -33,6 +33,7 @@ export function CardDetailsModal(props: Props) {
 
   return (
     <div
+      data-testid="card-details"
       className={classNames(
         "bg-opacity-50 fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-auto bg-black/10",
         props.isOpen ? "block" : "hidden",

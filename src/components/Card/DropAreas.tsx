@@ -9,7 +9,7 @@ type CardDraggerAreaPosition = "up" | "down";
 export function DropAreas(props: { card: Card_Schema; cardDraft: CardDraft }) {
   const db = useApi();
   const overListCards = useLiveQuery(
-    () => db.getCardByListId(props.card.listId),
+    () => db.card.getByListId(props.card.listId),
     [db, props.card.listId],
   );
   const { cardDraft } = props;

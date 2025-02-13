@@ -2,12 +2,11 @@ import ReactMarkdown from "react-markdown";
 
 interface Props {
   children: string | undefined | null;
-  className?: string;
 }
 
-export function Markdown({ children, className }: Props) {
+export function Markdown({ children }: Props) {
   return (
-    <div className={`prose ${className}`}>
+    <div className="text-sm text-primary-900">
       <ReactMarkdown>{children}</ReactMarkdown>
     </div>
   );

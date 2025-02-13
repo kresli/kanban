@@ -22,9 +22,9 @@ export function BoardRoute() {
   const boardQuery = useLiveQuery(async () => {
     let board: Board_Schema | undefined;
     if (boardId) {
-      board = await db.getBoardById(boardId);
+      board = await db.board.getById(boardId);
     } else if (cardId) {
-      board = await db.getBoardByCardId(cardId);
+      board = await db.board.getByCardId(cardId);
     }
     if (!board) throw new Error("Board not found");
     queryClient.setQueryData(["board", board.id], board);

@@ -5,10 +5,11 @@ import { CreateCardButton } from "./CreateCardButton";
 import { CreateCard } from "src/components/Card/CreateCard";
 import { useApi } from "src/hooks/useApi";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Card_Schema } from "src/database/schemas/card.schema";
+import { Card_Schema, CardData } from "src/database/schemas/card.schema";
 import { CardDraft } from "src/hooks/useCardDraftState";
 import { useState } from "react";
-import classNames from "classnames";
+import { Api } from "src/api";
+import { generateId } from "src/api/generate-id";
 
 export interface Props {
   listId: string;
@@ -17,11 +18,11 @@ export interface Props {
 
 export function List(props: Props) {
   const { cardDraft } = props;
-  const [newCardData, setNewCardData] = useState<Card_Schema | null>(null);
+  const [newCardData, setNewCardData] = useState<CardData | null>(null);
 
   const api = useApi();
   const listCards = useLiveQuery(
-    () => api.getCardByListId(props.listId),
+    () => api.card.getByListId(props.listId),
     [api, props.listId],
   );
   const onDrop = (e: React.DragEvent) => {
@@ -41,23 +42,13 @@ export function List(props: Props) {
     });
   };
 
-  const onSubmitNewCard = () => {
+  const onSubmitNewCard = async () => {
     if (!newCardData) return;
     if (newCardData.title) {
-      api.emitActivity({
-        id: api.generateId(),
-        activityType: "card_create",
-        authorId: "user",
-        cardId: newCardData.id,
-        createdAt: new Date().toISOString(),
-        payload: {
-          title: newCardData.title,
-          authorId: newCardData.authorId,
-          description: newCardData.description,
-          id: newCardData.id,
-          listId: newCardData.listId,
-          position: newCardData.position,
-        },
+      await api.card.create({
+        title: newCardData.title,
+        listId: newCardData.listId,
+        position: newCardData.position,
       });
     }
     setNewCardData(null);
@@ -66,13 +57,10 @@ export function List(props: Props) {
   const onCreateNewCardClick = () => {
     if (!listCards) return;
     const position = Math.max(...listCards.map((card) => card.position), 10);
-    const card: Card_Schema = {
+    const card: CardData = {
       title: "",
       listId: props.listId,
       position,
-      authorId: "1",
-      description: "",
-      id: api.generateId(),
     };
     setNewCardData(card);
   };

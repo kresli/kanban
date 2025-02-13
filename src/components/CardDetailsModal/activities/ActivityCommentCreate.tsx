@@ -1,23 +1,26 @@
 import { format, parseISO } from "date-fns";
 import { Markdown } from "src/components/Markdown";
-import { Activity_Card_Comment_Create_Schema } from "src/database/schemas/activity-card-comment-create.schema";
+import { Comment_Schema } from "src/database/schemas/comment.schema";
 
 interface Props {
-  activity: Activity_Card_Comment_Create_Schema;
+  activity: Comment_Schema;
 }
 
 export function ActivityCommentCreate(props: Props) {
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div
+      data-testid="activity-comment-create"
+      className="overflow-hidden rounded-lg border border-rim bg-white"
+    >
       <div>
-        <div className="flex items-center space-x-2 border-b border-gray-300 bg-gray-100 px-4 py-2">
+        <div className="flex items-center space-x-2 border-b border-rim bg-gray-100 px-4 py-2">
           <span className="text-base font-medium">
             {props.activity.authorId}
           </span>
           <FormatedDate activity={props.activity} />
         </div>
         <div className="p-4">
-          <Markdown>{props.activity.payload.comment}</Markdown>
+          <Markdown>{props.activity.text}</Markdown>
         </div>
       </div>
     </div>

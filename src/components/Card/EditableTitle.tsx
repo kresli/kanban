@@ -12,19 +12,9 @@ interface Props {
 export function EditableTitle(props: Props) {
   const db = useApi();
   if (!props.isEdit.value) return null;
-  const applyChanges = () => {
-    db.emitActivity({
-      id: db.generateId(),
-      activityType: "card_update",
-      authorId: "user",
-      cardId: props.card.id,
-      createdAt: new Date().toISOString(),
-      payload: {
-        title: {
-          oldValue: props.card.title,
-          newValue: props.draftTitle.value,
-        },
-      },
+  const applyChanges = async () => {
+    await db.card.update(props.card.id, {
+      title: props.draftTitle.value,
     });
     props.draftTitle.setValue("");
     props.isEdit.setFalse();

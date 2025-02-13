@@ -1,25 +1,50 @@
 import { IconTag } from "@tabler/icons-react";
 import { FormatedDate } from "./FormatedDate";
-import { Activity_Schema } from "src/database/schemas/activity.schema";
 import { PropsWithChildren } from "react";
+import classNames from "classnames";
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 
 export function ActivityCard(
   props: PropsWithChildren<{
-    activity: Activity_Schema;
-    activityType?: string;
+    activity: Commit_Schema;
+    testid?: string;
   }>,
 ) {
   return (
-    <div className="flex items-center space-x-2">
-      <div className="flex items-center justify-center rounded-full bg-gray-100 p-2 text-gray-500">
+    <div
+      className="flex flex-nowrap items-center space-x-2"
+      data-testid={props.testid}
+    >
+      <div className="flex items-center justify-center rounded-full border border-rim bg-primary-100 p-1.5 text-primary-400">
         <IconTag size={16} />
       </div>
-      <span className="text-base font-medium">{props.activity.authorId}</span>
-      <span className="text-sm text-gray-500">
-        {props.activityType ?? props.activity.activityType}
+      <span className="text-sm font-semibold text-nowrap">
+        {props.activity.authorId}
       </span>
-      {props.children}
+      <span className="flex flex-row items-center justify-center space-x-2 text-sm text-nowrap text-primary-400">
+        {props.children}
+      </span>
       <FormatedDate isoDate={props.activity.createdAt} />
     </div>
+  );
+}
+
+export function ActivityTag(
+  props: PropsWithChildren<{
+    color?: "red" | "green" | "neutral";
+  }>,
+) {
+  const { color = "neutral" } = props;
+  return (
+    <span
+      className={classNames(
+        "flex h-6 flex-nowrap items-center justify-center rounded-md border px-2 text-sm text-nowrap",
+        color === "neutral" && "bg-gray-50 text-gray-500",
+        color === "green" && "bg-green-50 text-green-600",
+        color === "red" && "bg-red-50 text-red-600",
+      )}
+    >
+      {props.children}
+    </span>
   );
 }

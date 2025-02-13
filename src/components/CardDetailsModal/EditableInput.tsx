@@ -1,43 +1,49 @@
 import { useBoolean } from "src/hooks/useBoolean";
 import { useText } from "src/hooks/useText";
-import classNames from "classnames";
 import { useLayoutEffect, useRef } from "react";
+import { useApi } from "src/hooks/useApi";
+import { Card_Schema } from "src/database/schemas/card.schema";
 
-export function EditableInput(props: {
-  onChange: (value: string) => void;
-  value: string;
-  autoFocus?: boolean;
-  className?: string;
-}) {
+export function EditableInput(props: { card: Card_Schema }) {
+  const api = useApi();
   const isEditing = useBoolean(false);
   const text = useText();
+  const title = props.card.title;
 
   const onFocus = () => {
     isEditing.setTrue();
-    text.setValue(props.value);
+    text.setValue(title);
   };
+
+  const onSubmit = async () => {
+    const trimmedValue = text.value.trim().trimStart();
+    if (!trimmedValue || trimmedValue === title) {
+      isEditing.setFalse();
+      text.setValue("");
+    } else {
+      await api.card.update(props.card.id, { title: trimmedValue });
+      isEditing.setFalse();
+      text.setValue("");
+    }
+  };
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
       e.stopPropagation();
-      text.setValue(props.value);
+      text.setValue(title);
       isEditing.setFalse();
       return;
     }
     if (e.key !== "Enter") return;
     if (e.shiftKey) return;
-    props.onChange(text.value);
-    isEditing.setFalse();
-  };
-  const onBlur = () => {
-    props.onChange(text.value);
-    isEditing.setFalse();
+    textareaRef.current?.blur();
   };
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     text.setValue(e.target.value);
   };
 
-  const value = isEditing.value ? text.value : props.value;
+  const value = isEditing.value ? text.value : title;
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,17 +57,13 @@ export function EditableInput(props: {
   return (
     <textarea
       ref={textareaRef}
-      autoFocus={props.autoFocus}
       onFocus={onFocus}
       value={value}
       onChange={onChange}
-      className={classNames(
-        "w-full resize-none border-none bg-transparent p-0 leading-snug text-primary-900 focus:outline-none",
-        props.className,
-      )}
+      className="w-full resize-none border-none bg-transparent p-0 text-lg leading-snug font-semibold text-primary-900 focus:outline-none"
       rows={1}
       onKeyDown={onKeyDown}
-      onBlur={onBlur}
+      onBlur={onSubmit}
     />
   );
 }

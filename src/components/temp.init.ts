@@ -9,6 +9,6 @@ export function initDB(db: Api, enabled: boolean) {
   const { boards, lists, activities, cards } = mockedDbData;
   db.database.boards.bulkAdd(boards);
   db.database.lists.bulkAdd(lists);
-  db.database.activities.bulkAdd(activities);
+  db.database.commits.bulkAdd(activities);
   db.database.cards.bulkAdd(cards);
 }
