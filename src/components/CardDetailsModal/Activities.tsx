@@ -16,10 +16,6 @@ export function Activities(props: Props) {
   const activityArray = useLiveQuery(() =>
     api.getActivitiesByCardId(props.card.id),
   );
-  const comments = useLiveQuery(
-    () => api.comment.getByCardId(props.card.id),
-    [props.card.id],
-  );
   const activities = activityArray?.map((activity) => (
     <ActivitySwitch key={activity.id} activity={activity} />
   ));

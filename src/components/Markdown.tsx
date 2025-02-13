@@ -6,7 +6,7 @@ interface Props {
 
 export function Markdown({ children }: Props) {
   return (
-    <div className="text-primary-900">
+    <div className="text-sm text-primary-900">
       <ReactMarkdown>{children}</ReactMarkdown>
     </div>
   );

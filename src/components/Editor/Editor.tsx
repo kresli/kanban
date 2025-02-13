@@ -43,7 +43,7 @@ export function Editor(props: Props) {
       <TabPanel value={tabIndex} index={0}>
         <textarea
           data-testid="editor"
-          className="h-full w-full border-none p-4 focus:outline-none"
+          className="flex h-full w-full border-none p-4 text-sm focus:outline-none"
           value={props.value}
           onKeyDown={onKeydown}
           onChange={onChange}
@@ -51,7 +51,7 @@ export function Editor(props: Props) {
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={1}>
-        <div className="p-2">
+        <div className="p-4">
           <Markdown>{props.value}</Markdown>
         </div>
       </TabPanel>

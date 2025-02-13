@@ -5,6 +5,7 @@ import { generateDiff } from "./generate-diff";
 import { RecordType } from "src/database/schemas/record-type";
 import { Commit_Schema } from "src/database/schemas/commit.schema";
 import {
+  Comment_Commit_Create_Schema,
   Comment_Commit_Update_Schema,
   Comment_Schema,
   CommentData,
@@ -67,10 +68,17 @@ export class ApiComment {
     ]);
   }
 
-  async getVersions(commentId: string) {
+  async getVersions(
+    commentId: string,
+  ): Promise<(Comment_Commit_Update_Schema | Comment_Commit_Create_Schema)[]> {
     return this.api.database.commits
       .where("commentId")
       .equals(commentId)
+      .filter(
+        (commit) =>
+          commit.type === RecordType.COMMENT_UPDATE ||
+          commit.type === RecordType.COMMENT_CREATE,
+      )
       .sortBy("createdAt");
   }
 
