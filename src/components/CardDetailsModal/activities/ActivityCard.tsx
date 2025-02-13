@@ -11,12 +11,17 @@ export function ActivityCard(
   }>,
 ) {
   return (
-    <div className="flex items-center space-x-2" data-testid={props.testid}>
+    <div
+      className="flex flex-nowrap items-center space-x-2"
+      data-testid={props.testid}
+    >
       <div className="flex items-center justify-center rounded-full border border-rim bg-primary-100 p-1.5 text-primary-400">
         <IconTag size={16} />
       </div>
-      <span className="text-sm font-semibold">{props.activity.authorId}</span>
-      <span className="flex flex-row items-center justify-center space-x-2 text-sm text-primary-400">
+      <span className="text-sm font-semibold text-nowrap">
+        {props.activity.authorId}
+      </span>
+      <span className="flex flex-row items-center justify-center space-x-2 text-sm text-nowrap text-primary-400">
         {props.children}
       </span>
       <FormatedDate isoDate={props.activity.createdAt} />
@@ -33,7 +38,7 @@ export function ActivityTag(
   return (
     <span
       className={classNames(
-        "flex h-6 items-center justify-center rounded-md border px-2 text-sm",
+        "flex h-6 flex-nowrap items-center justify-center rounded-md border px-2 text-sm text-nowrap",
         color === "neutral" && "bg-gray-50 text-gray-500",
         color === "green" && "bg-green-50 text-green-600",
         color === "red" && "bg-red-50 text-red-600",

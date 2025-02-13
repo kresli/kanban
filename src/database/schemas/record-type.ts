@@ -1,5 +1,5 @@
 /** todo - rename to SchemaType */
-export const enum CommitType {
+export const enum RecordType {
   BOARD_CREATE = "BOARD_CREATE",
   BOARD_UPDATE = "BOARD_UPDATE",
   BOARD_DELETE = "BOARD_DELETE",
@@ -14,4 +14,6 @@ export const enum CommitType {
   COMMENT_DELETE = "COMMENT_DELETE",
   COMMENT = "COMMENT",
   CARD = "CARD",
+  LIST = "LIST",
+  BOARD = "BOARD",
 }

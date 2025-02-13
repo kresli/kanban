@@ -17,6 +17,7 @@ export class Database extends Dexie {
     super(databaseName);
     this.version(1).stores({
       cards: createStoreKeys<Card_Schema>({
+        type: true,
         id: "index",
         listId: true,
         authorId: true,
@@ -25,6 +26,7 @@ export class Database extends Dexie {
         title: false,
       }),
       lists: createStoreKeys<List_Schema>({
+        type: true,
         id: "index",
         boardId: true,
         authorId: true,
@@ -33,12 +35,12 @@ export class Database extends Dexie {
         title: false,
       }),
       boards: createStoreKeys<Board_Schema>({
+        type: true,
         id: "index",
         authorId: true,
         createdAt: true,
         title: false,
         description: false,
-        schemaType: true,
       }),
       commits: createStoreKeys<Commit_Schema>({
         id: "index",
@@ -54,11 +56,11 @@ export class Database extends Dexie {
       }),
       comments: createStoreKeys<Comment_Schema>({
         id: "index",
+        type: true,
         authorId: true,
         createdAt: true,
         text: false,
         cardId: true,
-        schemaType: true,
       }),
     });
   }

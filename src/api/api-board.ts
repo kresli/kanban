@@ -3,7 +3,7 @@ import { Api } from "./api";
 import { generateId } from "./generate-id";
 import { generateDate } from "./generate-date";
 import { generateUpdateDiff } from "./generate-update-diff";
-import { CommitType } from "src/database/schemas/commit-type";
+import { RecordType } from "src/database/schemas/record-type";
 import { Commit_Schema } from "src/database/schemas/commit.schema";
 import { generateDiff } from "./generate-diff";
 
@@ -15,13 +15,14 @@ export class ApiBoard {
 
   async create(props: { title: string; description: string }) {
     const board: Board_Schema = {
+      type: RecordType.BOARD,
       id: generateId(),
       createdAt: generateDate(),
       authorId: this.api.userId,
       ...props,
     };
     const commit: Commit_Schema = {
-      type: CommitType.BOARD_CREATE,
+      type: RecordType.BOARD_CREATE,
       authorId: this.api.userId,
       boardId: board.id,
       createdAt: generateDate(),
@@ -44,7 +45,7 @@ export class ApiBoard {
     if (!updateDiff.hasUpdate) return;
 
     const commit: Commit_Schema = {
-      type: CommitType.BOARD_UPDATE,
+      type: RecordType.BOARD_UPDATE,
       authorId: this.api.userId,
       boardId: props.id,
       createdAt: generateDate(),

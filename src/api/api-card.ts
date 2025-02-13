@@ -7,7 +7,7 @@ import {
   Card_Schema,
   CardData,
 } from "src/database/schemas/card.schema";
-import { CommitType } from "src/database/schemas/commit-type";
+import { RecordType } from "src/database/schemas/record-type";
 import { Commit_Schema } from "src/database/schemas/commit.schema";
 
 export class ApiCard {
@@ -16,16 +16,19 @@ export class ApiCard {
     this.api = api;
   }
 
-  async create(props: Pick<Card_Schema, "title" | "listId" | "position">) {
-    const cardId = generateId();
+  async create(
+    props: Pick<Card_Schema, "title" | "listId" | "position"> & { id?: string },
+  ) {
+    const cardId = props.id || generateId();
     const card: Card_Schema = {
+      type: RecordType.CARD,
       id: cardId,
       authorId: this.api.userId,
       createdAt: generateDate(),
       ...props,
     };
     const commit: Commit_Schema = {
-      type: CommitType.CARD_CREATE,
+      type: RecordType.CARD_CREATE,
       authorId: this.api.userId,
       cardId,
       createdAt: generateDate(),
@@ -54,7 +57,7 @@ export class ApiCard {
     if (Object.keys(updated).length === 0) return;
 
     const commit: Commit_Schema = {
-      type: CommitType.CARD_UPDATE,
+      type: RecordType.CARD_UPDATE,
       authorId: this.api.userId,
       cardId: id,
       createdAt: generateDate(),
@@ -71,7 +74,7 @@ export class ApiCard {
 
   async delete(id: string) {
     const commit: Commit_Schema = {
-      type: CommitType.CARD_DELETE,
+      type: RecordType.CARD_DELETE,
       authorId: this.api.userId,
       cardId: id,
       createdAt: generateDate(),

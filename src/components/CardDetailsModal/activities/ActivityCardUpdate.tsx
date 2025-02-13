@@ -1,8 +1,11 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { ActivityCard, ActivityTag } from "./ActivityCard";
 import { useApi } from "src/hooks/useApi";
-import { Card_Commit_Schema } from "src/database/schemas/card.schema";
-import { CommitType } from "src/database/schemas/commit-type";
+import {
+  Card_Commit_Schema,
+  Card_Commit_Update_Schema,
+} from "src/database/schemas/card.schema";
+import { RecordType } from "src/database/schemas/record-type";
 
 interface Props {
   activity: Card_Commit_Schema;
@@ -17,42 +20,63 @@ export function ActivityCardUpdate(props: Props) {
 }
 
 function ActivityTagSwitcher(props: { activity: Card_Commit_Schema }) {
+  switch (props.activity.type) {
+    case RecordType.CARD_UPDATE: {
+      switch (true) {
+        case "listId" in props.activity.diff:
+          return <ActivityList activity={props.activity} />;
+        default: {
+          return <DefaultActivity activity={props.activity} />;
+        }
+      }
+    }
+    default: {
+      console.warn("Unknown activity type", props.activity);
+      return null;
+    }
+  }
+}
+
+function DefaultActivity(props: { activity: Card_Commit_Update_Schema }) {
+  const changes = Object.keys(props.activity.diff)
+    .map(localize)
+    .filter(Boolean) as string[];
+  return (
+    <span className="flex items-center space-x-2">
+      <span>changed</span>
+      {changes.map((change) => (
+        <ActivityTag key={change} color="neutral">
+          {change}
+        </ActivityTag>
+      ))}
+    </span>
+  );
+}
+
+function ActivityList(props: { activity: Card_Commit_Update_Schema }) {
   const api = useApi();
   const { listId } = props.activity.diff;
   const fromList = useLiveQuery(() =>
     listId?.from ? api.list.getById(listId.from) : null,
   );
-  console.log(listId);
   const toList = useLiveQuery(() =>
     listId ? api.list.getById(listId.to) : null,
   );
-  if (props.activity.type !== CommitType.CARD_UPDATE) return;
-  if (toList) {
-    return (
-      <>
-        {fromList && (
-          <>
-            <span>moved from</span>
-            <ActivityTag color="red">{fromList.title}</ActivityTag>
-            <span>to</span>
-          </>
-        )}
-        <ActivityTag color="green">{toList.title}</ActivityTag>
-      </>
-    );
-  }
-  const changesText = Object.keys(props.activity.diff)
-    .map((key) => localize(key as AcceptedFields))
-    .filter(Boolean)
-    .join(", ");
   return (
     <>
-      <span>updated</span> <ActivityTag>{changesText}</ActivityTag>
+      {fromList && (
+        <>
+          <span>moved from</span>
+          <ActivityTag color="red">{fromList.title}</ActivityTag>
+          <span>to</span>
+        </>
+      )}
+      {toList && <ActivityTag color="green">{toList.title}</ActivityTag>}
     </>
   );
 }
 
-function localize(text: AcceptedFields) {
+function localize(text: string) {
   switch (text) {
     case "listId":
       return "List";

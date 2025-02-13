@@ -2,7 +2,7 @@ import { Commit_Schema } from "src/database/schemas/commit.schema";
 import { Api } from "./api";
 import { generateDate } from "./generate-date";
 import { generateId } from "./generate-id";
-import { CommitType } from "src/database/schemas/commit-type";
+import { RecordType } from "src/database/schemas/record-type";
 import { List_Schema } from "src/database/schemas/list.schema";
 
 export class ApiList {
@@ -13,6 +13,7 @@ export class ApiList {
 
   async create(props: { title: string; boardId: string }) {
     const payload: List_Schema = {
+      type: RecordType.LIST,
       id: generateId(),
       createdAt: generateDate(),
       authorId: this.api.userId,
@@ -20,7 +21,7 @@ export class ApiList {
       ...props,
     };
     const commit: Commit_Schema = {
-      type: CommitType.LIST_CREATE,
+      type: RecordType.LIST_CREATE,
       authorId: this.api.userId,
       createdAt: generateDate(),
       data: payload,

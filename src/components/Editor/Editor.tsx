@@ -21,7 +21,7 @@ export function Editor(props: Props) {
     }
   };
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-rim bg-white focus-within:outline-2 focus-within:outline-secondary-500">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg border border-rim bg-white focus-within:outline-1 focus-within:outline-secondary-500">
       <div className="flex h-[41px] border-b border-gray-300 bg-gray-100">
         <button
           className={classNames("px-4 py-2 text-sm", {
