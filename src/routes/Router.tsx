@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-import { HomeRoute } from "./Home.route";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { BoardRoute } from "./Board.route";
 import { BASE_URL } from "src/contants";
 import { Page } from "../components/Page";
@@ -9,9 +8,12 @@ export function Router() {
     <BrowserRouter>
       <Routes>
         <Route path={BASE_URL} element={<Page />}>
-          <Route index element={<HomeRoute />} />
           <Route path="board/:board-id" element={<BoardRoute />} />
           <Route path="card/:card-id" element={<BoardRoute />} />
+          <Route
+            path="/"
+            element={<Navigate replace to="board/kanban-demo" />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
