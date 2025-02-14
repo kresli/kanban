@@ -67,4 +67,24 @@ export class ApiList {
     const listIds = lists.map((list) => list.id);
     await this.api.database.lists.bulkDelete(listIds);
   }
+
+  /** @todo - clone lists commits too */
+  async cloneById(id: string, props: Partial<List_Schema>) {
+    const originalList = await this.getById(id);
+    if (!originalList) return;
+
+    const listId = await this.api.database.lists.add({
+      ...originalList,
+      ...props,
+      id: generateId(),
+    });
+
+    const originalCards = await this.api.card.getByListId(id);
+
+    await Promise.all(
+      originalCards.map((card) => this.api.card.cloneById(card.id, { listId })),
+    );
+
+    return listId;
+  }
 }

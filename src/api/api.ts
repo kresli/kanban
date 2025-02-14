@@ -114,6 +114,5 @@ export class Api {
       this.database.comments.bulkAdd(comments as Comment_Schema[]),
       this.database.commits.bulkAdd(commits as Commit_Schema[]),
     ]);
-    window.location.reload();
   }
 }

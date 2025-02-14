@@ -6,6 +6,14 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useApi } from "src/hooks/useApi";
 import classNames from "classnames";
 import { Card_Schema } from "src/database/schemas/card.schema";
+import {
+  FloatingOverlay,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useRole,
+} from "@floating-ui/react";
 
 interface Props {
   cardId: string;

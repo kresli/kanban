@@ -134,4 +134,25 @@ export class ApiComment {
       this.api.database.commits.add(commit),
     ]);
   }
+
+  async cloneById(id: string, props: { cardId: string }) {
+    const originalComment = await this.api.database.comments.get(id);
+    if (!originalComment) return;
+
+    const commentId = await this.api.database.comments.add({
+      ...originalComment,
+      ...props,
+      id: generateId(),
+    });
+
+    const originalCommits = await this.api.commit.getByCommentId(id);
+
+    await Promise.all(
+      originalCommits.map((commit) =>
+        this.api.commit.cloneById(commit.id, { commentId }),
+      ),
+    );
+
+    return commentId;
+  }
 }

@@ -1,6 +1,6 @@
 import { BoardsGroup } from "./BoardsGroup";
 import { Divider } from "./Divider";
-import { ExtraGroup } from "./ExtraGroup";
+// import { ExtraGroup } from "./ExtraGroup";
 import { LogoButton } from "./LogoButton";
 
 export function Navbar() {
@@ -10,7 +10,7 @@ export function Navbar() {
       <Divider />
       <BoardsGroup />
       <Divider />
-      <ExtraGroup />
+      {/* <ExtraGroup /> */}
     </div>
   );
 }

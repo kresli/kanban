@@ -1,18 +1,7 @@
-import {
-  FloatingPortal,
-  UseFloatingReturn,
-  useFloating,
-  offset,
-  flip,
-  shift,
-  autoUpdate,
-  useClick,
-  useDismiss,
-  useInteractions,
-} from "@floating-ui/react";
-import { createContext, useContext } from "react";
-
-const MenuContext = createContext<MenuContextValue>(null!);
+import { FloatingPortal } from "@floating-ui/react";
+import { useContext } from "react";
+import { useFloatingMenu } from "./useFloatingMenu";
+import { MenuContext } from "./MenuContext";
 
 export function Menu(props: {
   children: React.ReactNode;
@@ -64,45 +53,3 @@ Menu.Content = function MenuContent(props: { children: React.ReactNode }) {
     </FloatingPortal>
   );
 };
-
-interface MenuContextValue {
-  refs: UseFloatingReturn["refs"];
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-  x: number | null;
-  y: number | null;
-  getReferenceProps: () => Record<string, unknown>;
-  getFloatingProps: () => Record<string, unknown>;
-  strategy: "fixed" | "absolute";
-}
-
-function useFloatingMenu(props: {
-  isOpen: boolean;
-  onOpenChange: (value: boolean) => void;
-}): MenuContextValue {
-  const { x, y, refs, strategy, context } = useFloating({
-    placement: "bottom-start",
-    middleware: [offset(4), flip(), shift()],
-    whileElementsMounted: autoUpdate,
-    onOpenChange: props.onOpenChange,
-    open: props.isOpen,
-  });
-
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    click,
-    dismiss,
-  ]);
-  return {
-    refs,
-    isOpen: props.isOpen,
-    setIsOpen: props.onOpenChange,
-    x,
-    y,
-    getReferenceProps,
-    getFloatingProps,
-    strategy,
-  };
-}

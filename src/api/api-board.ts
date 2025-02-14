@@ -85,4 +85,25 @@ export class ApiBoard {
       this.api.database.boards.delete(id),
     ]);
   }
+
+  /** @todo - clone board commits too */
+  async cloneById(id: string, props: Partial<BoardData>) {
+    const originalBoard = await this.api.database.boards.get(id);
+    if (!originalBoard) return;
+
+    const boardId = await this.api.database.boards.add({
+      ...originalBoard,
+      ...props,
+      id: generateId(),
+    });
+
+    const originalLists = await this.api.list.getByBoardId(id);
+
+    await Promise.all(
+      originalLists.map((list) =>
+        this.api.list.cloneById(list.id, { boardId }),
+      ),
+    );
+    return boardId;
+  }
 }

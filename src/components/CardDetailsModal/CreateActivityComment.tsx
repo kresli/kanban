@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Editor } from "src/components/Editor";
 import { Card_Schema } from "src/database/schemas/card.schema";
 import { useApi } from "src/hooks/useApi";
+import { PrimaryButton } from "../PrimaryButton";
+import { SecondaryButton } from "../SecondaryButton";
 
 export function CreateActivityComment(props: { card: Card_Schema }) {
   const api = useApi();
@@ -30,18 +32,8 @@ export function CreateActivityComment(props: { card: Card_Schema }) {
 function EditorActions(props: { onCancel: () => void; onComment: () => void }) {
   return (
     <div className="flex justify-end gap-2">
-      <button
-        className="rounded border border-rim px-3 py-1 text-sm hover:bg-gray-100"
-        onClick={props.onCancel}
-      >
-        Cancel
-      </button>
-      <button
-        className="cursor-pointer rounded border bg-secondary-500 px-3 py-1 text-sm text-white hover:bg-secondary-600"
-        onClick={props.onComment}
-      >
-        Comment
-      </button>
+      <SecondaryButton onClick={props.onCancel} text="Cancel" />
+      <PrimaryButton onClick={props.onComment} text="Comment" />
     </div>
   );
 }

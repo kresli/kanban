@@ -1,4 +1,6 @@
+import { Commit_Schema } from "src/database/schemas/commit.schema";
 import { Api } from "./api";
+import { generateId } from "./generate-id";
 
 export class ApiCommits {
   private api: Api;
@@ -30,6 +32,13 @@ export class ApiCommits {
       .sortBy("createdAt");
   }
 
+  async getByCommentId(commentId: string) {
+    return this.api.database.commits
+      .where("commentId")
+      .equals(commentId)
+      .sortBy("createdAt");
+  }
+
   async deleteByBoardId(boardId: string) {
     const commits = await this.getByBoardId(boardId);
     const commitIds = commits.map((commit) => commit.id);
@@ -43,5 +52,18 @@ export class ApiCommits {
       .toArray();
     const commitIds = commits.map((commit) => commit.id);
     await this.api.database.commits.bulkDelete(commitIds);
+  }
+
+  async cloneById(id: string, props: Partial<Commit_Schema>) {
+    const originalCommit = await this.api.database.commits.get(id);
+    if (!originalCommit) return;
+
+    const commitId = await this.api.database.commits.add({
+      ...originalCommit,
+      ...props,
+      id: generateId(),
+    });
+
+    return commitId;
   }
 }
