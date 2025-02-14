@@ -11,7 +11,7 @@ export function Router() {
           <Route path="board/:board-id" element={<BoardRoute />} />
           <Route path="card/:card-id" element={<BoardRoute />} />
           <Route
-            path="/"
+            path=""
             element={<Navigate replace to="board/kanban-demo" />}
           />
         </Route>
