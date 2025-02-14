@@ -12,6 +12,7 @@ import { CardDraft } from "src/hooks/useCardDraftState";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "src/contants";
 import classNames from "classnames";
+import { IconMessageCircle } from "@tabler/icons-react";
 
 interface Props {
   cardId: string;
@@ -61,9 +62,22 @@ export function Card(props: Props) {
 }
 
 function Title(props: { isDragging: boolean; card: Card_Schema }) {
+  const api = useApi();
   const { isDragging, card } = props;
   const draftTitle = useText();
   const isEdit = useBoolean();
+  const commentCountQuery = useLiveQuery(() =>
+    api.comment.getCountByCardId(card.id),
+  );
+  const commentCount = !commentCountQuery ? null : (
+    <div
+      className="flex items-center justify-end space-x-1 text-sm text-primary-400"
+      title="Comments"
+    >
+      <IconMessageCircle size={14} />
+      <span>{commentCountQuery}</span>
+    </div>
+  );
   return (
     <div
       className={classNames(
@@ -73,6 +87,7 @@ function Title(props: { isDragging: boolean; card: Card_Schema }) {
     >
       <ReadonlyTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />
       <EditableTitle card={card} draftTitle={draftTitle} isEdit={isEdit} />
+      {commentCount}
     </div>
   );
 }

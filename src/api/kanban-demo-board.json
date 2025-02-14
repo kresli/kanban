@@ -1,0 +1,594 @@
+{
+  "board": {
+    "id": "kanban-demo",
+    "type": "BOARD",
+    "title": "Demo Board",
+    "authorId": "john-wick",
+    "description": "This is my board",
+    "createdAt": "2025-02-13T13:02:27.955Z"
+  },
+  "lists": [
+    {
+      "id": "todo",
+      "type": "LIST",
+      "title": "To Do",
+      "authorId": "john-wick",
+      "position": 0,
+      "createdAt": "2025-02-13T13:02:27.955Z",
+      "boardId": "kanban-demo"
+    },
+    {
+      "id": "inprogress",
+      "type": "LIST",
+      "title": "In Progress",
+      "authorId": "john-wick",
+      "position": 1,
+      "createdAt": "2025-02-13T13:02:27.955Z",
+      "boardId": "kanban-demo"
+    },
+    {
+      "id": "done",
+      "type": "LIST",
+      "title": "Done",
+      "authorId": "john-wick",
+      "position": 2,
+      "createdAt": "2025-02-13T13:02:27.955Z",
+      "boardId": "kanban-demo"
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-17",
+      "type": "CARD",
+      "title": "Deploy frontend",
+      "listId": "done",
+      "position": 1,
+      "authorId": "john-wick",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-18",
+      "type": "CARD",
+      "title": "Optimize database queries",
+      "listId": "done",
+      "position": 2,
+      "authorId": "agent-smith",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-19",
+      "type": "CARD",
+      "title": "Write end-to-end tests",
+      "listId": "done",
+      "position": 3,
+      "authorId": "neo",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-20",
+      "type": "CARD",
+      "title": "Set up monitoring and logging with Winston for better error tracking and debugging in production",
+      "listId": "done",
+      "position": 4,
+      "authorId": "morpheus",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-1",
+      "type": "CARD",
+      "title": "🚀 Set up project structure",
+      "listId": "inprogress",
+      "position": 0.75,
+      "authorId": "neo",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-11",
+      "type": "CARD",
+      "title": "Deploy backend with Docker and configure a robust setup for production",
+      "listId": "inprogress",
+      "position": 1,
+      "authorId": "trinity",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-12",
+      "type": "CARD",
+      "title": "Implement real-time updates",
+      "listId": "inprogress",
+      "position": 2,
+      "authorId": "morpheus",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-13",
+      "type": "CARD",
+      "title": "Configure CI/CD pipeline",
+      "listId": "inprogress",
+      "position": 3,
+      "authorId": "agent-smith",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-14",
+      "type": "CARD",
+      "title": "Style UI with Material-UI components to enhance user experience and improve accessibility",
+      "listId": "inprogress",
+      "position": 4,
+      "authorId": "neo",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-15",
+      "type": "CARD",
+      "title": "Integrate Swagger",
+      "listId": "inprogress",
+      "position": 5,
+      "authorId": "trinity",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-16",
+      "type": "CARD",
+      "title": "Fix drag-and-drop issues",
+      "listId": "inprogress",
+      "position": 6,
+      "authorId": "morpheus",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-10",
+      "type": "CARD",
+      "title": "Write tests",
+      "listId": "todo",
+      "position": 10,
+      "authorId": "john-wick",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-2",
+      "type": "CARD",
+      "title": "🛠️ Install dependencies including React, Express, Mongoose, and other necessary packages 🗃️",
+      "listId": "todo",
+      "position": 2,
+      "authorId": "morpheus",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-3",
+      "type": "CARD",
+      "title": "🗄️ Design database schema",
+      "listId": "todo",
+      "position": 3,
+      "authorId": "john-wick",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-4",
+      "type": "CARD",
+      "title": "🔐 Implement authentication with Keycloak",
+      "listId": "todo",
+      "position": 4,
+      "authorId": "trinity",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-5",
+      "type": "CARD",
+      "title": "👍 🔧 API endpoints for card management with CRUD operations",
+      "listId": "todo",
+      "position": 5,
+      "authorId": "agent-smith",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-6",
+      "type": "CARD",
+      "title": "Build card list UI",
+      "listId": "todo",
+      "position": 6,
+      "authorId": "trinity",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-7",
+      "type": "CARD",
+      "title": "Implement drag-and-drop",
+      "listId": "todo",
+      "position": 7,
+      "authorId": "morpheus",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-8",
+      "type": "CARD",
+      "title": "Connect frontend with backend and ensure real-time synchronization of card changes",
+      "listId": "todo",
+      "position": 8,
+      "authorId": "neo",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    },
+    {
+      "id": "card-9",
+      "type": "CARD",
+      "title": "Optimize performance",
+      "listId": "todo",
+      "position": 9,
+      "authorId": "agent-smith",
+      "createdAt": "2025-02-13T13:02:27.955Z"
+    }
+  ],
+  "comments": [
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T13:02:48.608Z",
+      "id": "ba8effd5-1839-4a44-a745-a73549660252",
+      "text": "### Project Structure Setup 🚀\n\n- **Created** the main directories: `src`, `tests`, `docs`\n- **Added** essential configuration files: `.gitignore`, `README.md`, `tsconfig.json`\n- **Scaffolded** the project for a clean start! 🎉",
+      "cardId": "card-1",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T13:02:53.828Z",
+      "id": "587f465c-1b1f-43e7-8a5a-d927651ad5bd",
+      "text": "**Initial Project Structure** 🔧\n\n- Organized the folder hierarchy for clarity and scalability.\n- Set up starter files and configs to kickstart development.\n- All systems go! 💻✨",
+      "cardId": "card-1",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:07:56.857Z",
+      "id": "2695b14d-f3b9-4311-8ecf-ef26f98316b7",
+      "text": "### Installing Dependencies 🛠️\n\n- **Installed** React for building the user interface 🎨.\n- **Installed** Express for the backend server 🚀.\n- **Installed** Mongoose for MongoDB integration 🗃️.\n- **Added** other necessary packages to ensure a robust setup.\n- Verified all installations and resolved any dependency conflicts.",
+      "cardId": "card-2",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:08:04.746Z",
+      "id": "b65d750d-e49f-4a0b-b6eb-47872eb27fd5",
+      "text": "**Dependency Installation** 🔧\n\n- Ran installation commands for React, Express, and Mongoose along with other essential packages.\n- Confirmed that all packages are correctly integrated and working.\n- The project is now fully equipped to support both frontend and backend development! 🚀✨",
+      "cardId": "card-2",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:08:59.001Z",
+      "id": "ae1b460e-7bd4-4e5f-ab0f-998ebdfed136",
+      "text": "### Initial Database Schema Design 🗄️\n\n- Drafted an initial ER diagram outlining key entities and relationships.\n- Identified core collections/tables (e.g., Users, Orders, Products).\n- Planned for scalability and data integrity from the start.",
+      "cardId": "card-3",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:04.672Z",
+      "id": "99a09240-e2bc-4d90-8b51-edec3d19670f",
+      "text": "**Database Schema Blueprint** 📊\n\n- Analyzed project requirements to map out entities and relationships.\n- Designed a normalized schema to minimize redundancy.\n- Outlined key indexes and constraints for performance optimization.",
+      "cardId": "card-3",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:10.372Z",
+      "id": "4ae043ca-6f02-47c1-8362-fd58681b64a3",
+      "text": "### Schema Design Iteration 🔄\n\n- Refined entity definitions based on feedback.\n- Adjusted relationships (one-to-many, many-to-many) to ensure robust data linking.\n- Included audit fields (createdAt, updatedAt) for better tracking.",
+      "cardId": "card-3",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:16.334Z",
+      "id": "99c09a72-09bb-449f-9a31-98b3d9f7d303",
+      "text": "**Finalized Database Schema** ✅\n\n- Completed detailed schema documentation, including an updated ER diagram.\n- Established clear data types, indexing strategies, and validation rules.\n- Ready for implementation with considerations for future enhancements.",
+      "cardId": "card-3",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:05.874Z",
+      "id": "f8d2a117-aa4f-41a9-bf59-2bb4e1e0c5ef",
+      "text": "### Keycloak Integration Setup 🔐\n\n- Integrated Keycloak for centralized authentication.\n- Configured realm, clients, and user roles.\n- Established secure connection between Keycloak and backend services.",
+      "cardId": "card-4",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:10.634Z",
+      "id": "e863ffa3-0120-496a-b272-c65f6ff43504",
+      "text": "**Authentication Implementation** 🛡️\n\n- Added Keycloak middleware for seamless authentication.\n- Implemented OAuth2 flow with token validation and refresh mechanisms.\n- Verified login, logout, and role-based access control.",
+      "cardId": "card-4",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:15.246Z",
+      "id": "a073b363-1b5e-4835-91ae-15c6c00f1af7",
+      "text": "### Secure Auth Flow with Keycloak 🚀\n\n- Configured Keycloak adapter in the Express server.\n- Set up secure endpoints to manage user sessions.\n- Tested authentication processes and error handling.",
+      "cardId": "card-4",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:22.175Z",
+      "id": "2bae9564-19c1-4d41-8829-92dd3c329975",
+      "text": "**Keycloak Auth Complete** ✅\n\n- Completed Keycloak integration for user management.\n- Ensured proper token handling and session security.\n- Updated documentation with configuration and setup instructions.",
+      "cardId": "card-4",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:11:03.425Z",
+      "id": "30abbaee-6a77-4641-b3ab-a185c157db10",
+      "text": "### Card Management API Endpoints 🚀\n\n- Developed endpoints for Create, Read, Update, and Delete operations.\n- Implemented proper data validation and error handling.\n- Tested each endpoint to ensure reliable CRUD operations.",
+      "cardId": "card-5",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:11:07.780Z",
+      "id": "c17a4f46-376f-4aaf-92f9-e8409ad5c19c",
+      "text": "**CRUD Operations for Card Management** 🔧\n\n- Designed and implemented RESTful endpoints for managing cards.\n- Integrated middleware for authentication and input validation.\n- Verified functionality using unit tests and API testing tools.",
+      "cardId": "card-5",
+      "type": "COMMENT"
+    },
+    {
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T21:46:56.496Z",
+      "id": "763f0f87-7ca2-443e-b5f6-d0dabd0ad3ae",
+      "text": "test",
+      "cardId": "card-2",
+      "type": "COMMENT"
+    }
+  ],
+  "commits": [
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T13:02:48.608Z",
+      "id": "9c18f0df-15ac-40ab-ae3d-2d534c369bdc",
+      "commentId": "ba8effd5-1839-4a44-a745-a73549660252",
+      "cardId": "card-1",
+      "data": {
+        "text": "### Project Structure Setup 🚀\n\n- **Created** the main directories: `src`, `tests`, `docs`\n- **Added** essential configuration files: `.gitignore`, `README.md`, `tsconfig.json`\n- **Scaffolded** the project for a clean start! 🎉"
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T13:02:53.828Z",
+      "id": "8008e282-c6ec-4a05-b55b-1927e0a91848",
+      "commentId": "587f465c-1b1f-43e7-8a5a-d927651ad5bd",
+      "cardId": "card-1",
+      "data": {
+        "text": "**Initial Project Structure** 🔧\n\n- Organized the folder hierarchy for clarity and scalability.\n- Set up starter files and configs to kickstart development.\n- All systems go! 💻✨"
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-1",
+      "createdAt": "2025-02-13T13:03:53.677Z",
+      "id": "6b0850cb-bc08-4f9a-a54d-c49dfc9365c8",
+      "diff": {
+        "title": {
+          "from": "Markdown - Set up project structure",
+          "to": "🚀 Set up project structure"
+        }
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-1",
+      "createdAt": "2025-02-13T14:07:11.192Z",
+      "id": "57ebd4ba-becf-4226-90b4-23d161599a8f",
+      "diff": {
+        "listId": {
+          "from": "todo",
+          "to": "inprogress"
+        },
+        "position": {
+          "from": 1,
+          "to": 0.75
+        }
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:07:56.857Z",
+      "id": "853d61b9-641c-4dee-b453-f82062e70a93",
+      "commentId": "2695b14d-f3b9-4311-8ecf-ef26f98316b7",
+      "cardId": "card-2",
+      "data": {
+        "text": "### Installing Dependencies 🛠️\n\n- **Installed** React for building the user interface 🎨.\n- **Installed** Express for the backend server 🚀.\n- **Installed** Mongoose for MongoDB integration 🗃️.\n- **Added** other necessary packages to ensure a robust setup.\n- Verified all installations and resolved any dependency conflicts."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:08:04.746Z",
+      "id": "34f55f85-cc6d-4a30-b72b-2a8cfe851426",
+      "commentId": "b65d750d-e49f-4a0b-b6eb-47872eb27fd5",
+      "cardId": "card-2",
+      "data": {
+        "text": "**Dependency Installation** 🔧\n\n- Ran installation commands for React, Express, and Mongoose along with other essential packages.\n- Confirmed that all packages are correctly integrated and working.\n- The project is now fully equipped to support both frontend and backend development! 🚀✨"
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-2",
+      "createdAt": "2025-02-13T14:08:16.767Z",
+      "id": "78e91a0b-dbe4-491a-8445-5ca50be57f25",
+      "diff": {
+        "title": {
+          "from": "Install dependencies including React, Express, Mongoose, and other necessary packages",
+          "to": "🛠️ Install dependencies including React, Express, Mongoose, and other necessary packages"
+        }
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-2",
+      "createdAt": "2025-02-13T14:08:21.970Z",
+      "id": "d9153af8-d681-41dd-9337-4e7a756e7462",
+      "diff": {
+        "title": {
+          "from": "🛠️ Install dependencies including React, Express, Mongoose, and other necessary packages",
+          "to": "🛠️ Install dependencies including React, Express, Mongoose, and other necessary packages 🗃️"
+        }
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:08:59.001Z",
+      "id": "c8c404b6-4a8e-4c70-95c6-8819c54c77de",
+      "commentId": "ae1b460e-7bd4-4e5f-ab0f-998ebdfed136",
+      "cardId": "card-3",
+      "data": {
+        "text": "### Initial Database Schema Design 🗄️\n\n- Drafted an initial ER diagram outlining key entities and relationships.\n- Identified core collections/tables (e.g., Users, Orders, Products).\n- Planned for scalability and data integrity from the start."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:04.672Z",
+      "id": "caeca4f2-db1a-4917-b59a-543797387565",
+      "commentId": "99a09240-e2bc-4d90-8b51-edec3d19670f",
+      "cardId": "card-3",
+      "data": {
+        "text": "**Database Schema Blueprint** 📊\n\n- Analyzed project requirements to map out entities and relationships.\n- Designed a normalized schema to minimize redundancy.\n- Outlined key indexes and constraints for performance optimization."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:10.372Z",
+      "id": "b3418857-e8c6-4eb9-8767-a53332836349",
+      "commentId": "4ae043ca-6f02-47c1-8362-fd58681b64a3",
+      "cardId": "card-3",
+      "data": {
+        "text": "### Schema Design Iteration 🔄\n\n- Refined entity definitions based on feedback.\n- Adjusted relationships (one-to-many, many-to-many) to ensure robust data linking.\n- Included audit fields (createdAt, updatedAt) for better tracking."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:09:16.334Z",
+      "id": "a1e11f29-4167-49be-89a8-316888eacb31",
+      "commentId": "99c09a72-09bb-449f-9a31-98b3d9f7d303",
+      "cardId": "card-3",
+      "data": {
+        "text": "**Finalized Database Schema** ✅\n\n- Completed detailed schema documentation, including an updated ER diagram.\n- Established clear data types, indexing strategies, and validation rules.\n- Ready for implementation with considerations for future enhancements."
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-3",
+      "createdAt": "2025-02-13T14:09:34.400Z",
+      "id": "0d6cfa2f-891f-4522-b456-106897cb98a1",
+      "diff": {
+        "title": {
+          "from": "Design database schema",
+          "to": "🗄️ Design database schema"
+        }
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:05.874Z",
+      "id": "fc838533-332c-4d6d-ad83-345256e36c94",
+      "commentId": "f8d2a117-aa4f-41a9-bf59-2bb4e1e0c5ef",
+      "cardId": "card-4",
+      "data": {
+        "text": "### Keycloak Integration Setup 🔐\n\n- Integrated Keycloak for centralized authentication.\n- Configured realm, clients, and user roles.\n- Established secure connection between Keycloak and backend services."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:10.634Z",
+      "id": "d10e86ae-5bcb-413a-a278-2d6c2584ccd1",
+      "commentId": "e863ffa3-0120-496a-b272-c65f6ff43504",
+      "cardId": "card-4",
+      "data": {
+        "text": "**Authentication Implementation** 🛡️\n\n- Added Keycloak middleware for seamless authentication.\n- Implemented OAuth2 flow with token validation and refresh mechanisms.\n- Verified login, logout, and role-based access control."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:15.246Z",
+      "id": "92e56183-8931-4e5e-8648-5f440a1b83c1",
+      "commentId": "a073b363-1b5e-4835-91ae-15c6c00f1af7",
+      "cardId": "card-4",
+      "data": {
+        "text": "### Secure Auth Flow with Keycloak 🚀\n\n- Configured Keycloak adapter in the Express server.\n- Set up secure endpoints to manage user sessions.\n- Tested authentication processes and error handling."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:10:22.175Z",
+      "id": "9fd637cc-2b11-48dc-8305-f21403770e95",
+      "commentId": "2bae9564-19c1-4d41-8829-92dd3c329975",
+      "cardId": "card-4",
+      "data": {
+        "text": "**Keycloak Auth Complete** ✅\n\n- Completed Keycloak integration for user management.\n- Ensured proper token handling and session security.\n- Updated documentation with configuration and setup instructions."
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-4",
+      "createdAt": "2025-02-13T14:10:33.203Z",
+      "id": "6a2225d2-ffc0-4860-bafe-7becd3208926",
+      "diff": {
+        "title": {
+          "from": "Implement authentication with Keycloak",
+          "to": "🔐 Implement authentication with Keycloak"
+        }
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:11:03.425Z",
+      "id": "60bf0dbd-3f45-4aa1-994c-ebfc633593cc",
+      "commentId": "30abbaee-6a77-4641-b3ab-a185c157db10",
+      "cardId": "card-5",
+      "data": {
+        "text": "### Card Management API Endpoints 🚀\n\n- Developed endpoints for Create, Read, Update, and Delete operations.\n- Implemented proper data validation and error handling.\n- Tested each endpoint to ensure reliable CRUD operations."
+      }
+    },
+    {
+      "type": "COMMENT_CREATE",
+      "authorId": "john-doe",
+      "createdAt": "2025-02-13T14:11:07.780Z",
+      "id": "4ff98a92-7d51-4321-9fe2-ec8319705551",
+      "commentId": "c17a4f46-376f-4aaf-92f9-e8409ad5c19c",
+      "cardId": "card-5",
+      "data": {
+        "text": "**CRUD Operations for Card Management** 🔧\n\n- Designed and implemented RESTful endpoints for managing cards.\n- Integrated middleware for authentication and input validation.\n- Verified functionality using unit tests and API testing tools."
+      }
+    },
+    {
+      "type": "CARD_UPDATE",
+      "authorId": "john-doe",
+      "cardId": "card-5",
+      "createdAt": "2025-02-13T14:11:37.663Z",
+      "id": "b7b29ab2-4bc6-472e-aaad-ef55706ab63f",
+      "diff": {
+        "title": {
+          "from": "Develop API endpoints for card management with CRUD operations",
+          "to": "👍 🔧 API endpoints for card management with CRUD operations"
+        }
+      }
+    }
+  ]
+}

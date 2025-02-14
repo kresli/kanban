@@ -50,7 +50,10 @@ export function Comment(props: Props) {
           <FormatedDate comment={props.comment} />
           <div className="flex flex-1" />
           {edits}
-          <CardOptionsButton onEdit={() => setEditedText(props.comment.text)} />
+          <CardOptionsButton
+            comment={props.comment}
+            onEdit={() => setEditedText(props.comment.text)}
+          />
         </div>
         {!isEditing && (
           <div className="p-4">
@@ -153,11 +156,19 @@ function Version(props: {
   );
 }
 
-function CardOptionsButton(props: { onEdit: () => void }) {
+function CardOptionsButton(props: {
+  comment: Comment_Schema;
+  onEdit: () => void;
+}) {
+  const api = useApi();
   const [isOpen, setIsOpen] = useState(false);
   const onEdit = () => {
     props.onEdit();
     setIsOpen(false);
+  };
+
+  const onDelete = () => {
+    api.comment.deleteById(props.comment.id);
   };
 
   return (
@@ -167,7 +178,7 @@ function CardOptionsButton(props: { onEdit: () => void }) {
       </Menu.Trigger>
       <Menu.Content>
         <OptionItem onClick={onEdit}>Edit</OptionItem>
-        <OptionItem onClick={() => alert("Delete")}>Delete</OptionItem>
+        <OptionItem onClick={onDelete}>Delete</OptionItem>
       </Menu.Content>
     </Menu>
   );

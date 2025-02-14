@@ -98,6 +98,25 @@ export class ApiCard {
       .sortBy("position");
   }
 
+  async getByBoardId(boardId: string) {
+    const lists = await this.api.database.lists
+      .where("boardId")
+      .equals(boardId)
+      .toArray();
+    const listIds = lists.map((list) => list.id);
+    const cards = await this.api.database.cards
+      .where("listId")
+      .anyOf(listIds)
+      .toArray();
+    return cards;
+  }
+
+  async deleteByBoardId(boardId: string) {
+    const cards = await this.getByBoardId(boardId);
+    const cardIds = cards.map((card) => card.id);
+    await this.api.database.cards.bulkDelete(cardIds);
+  }
+
   // async create(props: { title: string; listId: string }) {
   //   const payload = {
   //     id: generateId(),

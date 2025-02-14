@@ -1,6 +1,5 @@
 import { PropsWithChildren, useState } from "react";
 import { Api } from "src/api";
-import { initDB } from "./temp.init";
 import { ApiContext } from "src/contexts/api.context";
 
 export function ApiProvider(
@@ -16,7 +15,6 @@ export function ApiProvider(
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).kanbanApi = db;
-    initDB(db, false);
     return db;
   });
   return (

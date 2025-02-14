@@ -75,4 +75,14 @@ export class ApiBoard {
     if (!list) return;
     return this.api.database.boards.get(list.boardId);
   }
+
+  async deleteById(id: string) {
+    await Promise.all([
+      this.api.commit.deleteByBoardId(id),
+      this.api.comment.deleteByBoardId(id),
+      this.api.card.deleteByBoardId(id),
+      this.api.list.deleteByBoardId(id),
+      this.api.database.boards.delete(id),
+    ]);
+  }
 }

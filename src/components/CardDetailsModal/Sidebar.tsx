@@ -6,6 +6,7 @@ import { useFormatDate } from "src/hooks/useFormatDate";
 
 export function Sidebar(props: { card: Card_Schema; onClose: () => void }) {
   const createdDate = useFormatDate(props.card.createdAt);
+
   return (
     <div className="flex max-w-[168px] min-w-[168px] flex-col items-start space-y-2">
       <div className="w-full space-y-2 pb-2">
@@ -20,7 +21,7 @@ export function Sidebar(props: { card: Card_Schema; onClose: () => void }) {
         </div>
       </div>
       <div className="w-full border-t border-rim py-2">
-        <DeleteButton card={props.card} onClick={props.onClose} />
+        <DeleteButton card={props.card} onDelete={props.onClose} />
       </div>
     </div>
   );
@@ -52,11 +53,11 @@ function ListSelector(props: { card: Card_Schema }) {
   );
 }
 
-function DeleteButton(props: { card: Card_Schema; onClick: () => void }) {
+function DeleteButton(props: { card: Card_Schema; onDelete: () => void }) {
   const api = useApi();
   const onClick = async () => {
+    props.onDelete();
     await api.card.delete(props.card.id);
-    props.onClick();
   };
   return (
     <button

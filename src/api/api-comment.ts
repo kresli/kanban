@@ -88,4 +88,50 @@ export class ApiComment {
       .equals(cardId)
       .sortBy("createdAt");
   }
+
+  async getByBoardId(boardId: string) {
+    const lists = await this.api.database.lists
+      .where("boardId")
+      .equals(boardId)
+      .toArray();
+    const listIds = lists.map((list) => list.id);
+    const cards = await this.api.database.cards
+      .where("listId")
+      .anyOf(listIds)
+      .toArray();
+    const cardIds = cards.map((card) => card.id);
+    const comments = await this.api.database.comments
+      .where("cardId")
+      .anyOf(cardIds)
+      .sortBy("createdAt");
+    return comments;
+  }
+
+  async getCountByCardId(cardId: string) {
+    return this.api.database.comments.where("cardId").equals(cardId).count();
+  }
+
+  async deleteByBoardId(boardId: string) {
+    const comments = await this.getByBoardId(boardId);
+    const commentIds = comments.map((comment) => comment.id);
+    await this.api.database.comments.bulkDelete(commentIds);
+  }
+
+  async deleteById(id: string) {
+    const comment = await this.api.database.comments.get(id);
+    if (!comment) return;
+    const commit: Commit_Schema = {
+      type: RecordType.COMMENT_DELETE,
+      authorId: this.api.userId,
+      cardId: comment.cardId,
+      commentId: id,
+      createdAt: generateDate(),
+      id: generateId(),
+    };
+
+    await Promise.all([
+      this.api.database.comments.delete(id),
+      this.api.database.commits.add(commit),
+    ]);
+  }
 }

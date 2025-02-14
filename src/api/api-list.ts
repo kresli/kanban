@@ -58,4 +58,13 @@ export class ApiList {
   async getAll() {
     return this.api.database.lists.toArray();
   }
+
+  async deleteByBoardId(boardId: string) {
+    const lists = await this.api.database.lists
+      .where("boardId")
+      .equals(boardId)
+      .toArray();
+    const listIds = lists.map((list) => list.id);
+    await this.api.database.lists.bulkDelete(listIds);
+  }
 }
