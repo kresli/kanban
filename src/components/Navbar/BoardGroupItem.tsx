@@ -26,7 +26,6 @@ export function BoardGroupItem(props: { board: Board_Schema }) {
   const to = ROUTE_URL.board(board.id);
 
   const onClick = (e: React.MouseEvent) => {
-    console.log("onDoubleClick");
     e.stopPropagation();
     e.preventDefault();
     setIsEdit(true);
