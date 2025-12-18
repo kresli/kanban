@@ -1,6 +1,11 @@
 # Kanban
 
+DEMO: https://kresli.github.io/kanban/board/kanban-demo
+
 An offline-friendly Kanban board that showcases my approach to building modular front-end applications. Everything runs locally in the browser thanks to IndexedDB, yet the UI behaves like a production SaaS product with multi-list boards, drag-and-drop cards, and rich activity timelines.
+
+<img width="1434" height="1187" alt="image" src="https://github.com/user-attachments/assets/8a79120c-85e5-40f6-b54a-347a415b6726" />
+
 
 ## Product Highlights
 
